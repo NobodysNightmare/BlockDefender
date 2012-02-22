@@ -144,7 +144,6 @@ namespace BlockDefender
         {
             StringBuilder myFPSText = new StringBuilder(Math.Round(1 / time.ElapsedGameTime.TotalSeconds).ToString()).Append(" FPS");
             HUDSprites.DrawString(SystemFont, myFPSText, Vector2.One, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            HUDSprites.DrawString(SystemFont, string.Format("{0}:{1}", Field.CalculateColumn(PlayerOne.Position), Field.CalculateRow(PlayerOne.Position)), new Vector2(1, 20), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
