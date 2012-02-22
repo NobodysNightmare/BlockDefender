@@ -9,22 +9,22 @@ namespace BlockDefender
 {
     class Playground
     {
-        public const int Width = 16;
-        public const int Height = 9;
+        public const int ColumnCount = 16;
+        public const int RowCount = 9;
 
         private Field[,] Fields;
 
         public Playground()
         {
-            Fields = new Field[Width, Height];
+            Fields = new Field[ColumnCount, RowCount];
             PopulateFields();
         }
 
         private void PopulateFields()
         {
-            for (int column = 0; column < Width; column++)
+            for (int column = 0; column < ColumnCount; column++)
             {
-                for (int row = 0; row < Height; row++)
+                for (int row = 0; row < RowCount; row++)
                 {
                     if((column % 4 != 2) || (row % 3 != 2))
                         Fields[column, row] = new PlainField(column, row);

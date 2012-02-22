@@ -58,7 +58,7 @@ namespace BlockDefender
             HUDSprites = new SpriteBatch(GraphicsDevice);
 
             SystemFont = Content.Load<SpriteFont>("SystemFont");
-            GlobalScale = ((float)graphics.GraphicsDevice.Viewport.Width / Playground.Width) / FieldSize;
+            GlobalScale = ((float)graphics.GraphicsDevice.Viewport.Width / Playground.ColumnCount) / FieldSize;
             Playground.Load(Content);
         }
 
