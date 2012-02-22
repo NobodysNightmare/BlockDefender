@@ -5,17 +5,17 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace BlockDefender
+namespace BlockDefender.Fields
 {
-    class PlainField : Field
+    class SolidField : Field
     {
-        public PlainField(int column, int row)
+        public SolidField(int column, int row)
             : base(column, row)
         { }
 
         protected override Texture2D LoadTexture(ContentManager content)
         {
-            return content.Load<Texture2D>("field3");
+            return content.Load<Texture2D>("field1");
         }
     }
 }
