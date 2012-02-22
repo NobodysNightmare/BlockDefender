@@ -18,7 +18,6 @@ namespace BlockDefender
     public class BlockDefenderGame : Microsoft.Xna.Framework.Game
     {
         public const int FieldSize = 100;
-        public const int PlaygroundWidth = 10;
 
         private float GlobalScale;
 
@@ -27,8 +26,7 @@ namespace BlockDefender
 
         private SpriteFont SystemFont;
 
-        private Field f1;
-        private Field f2;
+        private Playground Playground;
 
         public BlockDefenderGame()
         {
@@ -44,8 +42,7 @@ namespace BlockDefender
         /// </summary>
         protected override void Initialize()
         {
-            f1 = new Field(0, 0);
-            f2 = new Field(9, 1);
+            Playground = new Playground();
 
             base.Initialize();
         }
@@ -59,9 +56,8 @@ namespace BlockDefender
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             SystemFont = Content.Load<SpriteFont>("SystemFont");
-            GlobalScale = ((float)graphics.GraphicsDevice.Viewport.Width / PlaygroundWidth) / FieldSize;
-            f1.Load(Content);
-            f2.Load(Content);
+            GlobalScale = ((float)graphics.GraphicsDevice.Viewport.Width / Playground.Width) / FieldSize;
+            Playground.Load(Content);
         }
 
         /// <summary>
@@ -104,8 +100,7 @@ namespace BlockDefender
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.CreateScale(GlobalScale));
             drawFPS(gameTime);
-            f1.Draw(spriteBatch);
-            f2.Draw(spriteBatch);
+            Playground.Draw(spriteBatch);
             spriteBatch.End();
             
             base.Draw(gameTime);

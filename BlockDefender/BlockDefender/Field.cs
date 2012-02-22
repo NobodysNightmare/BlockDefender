@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace BlockDefender
 {
-    class Field
+    abstract class Field
     {
         private Texture2D Texture;
 
@@ -25,9 +25,11 @@ namespace BlockDefender
 
         public void Load(ContentManager content)
         {
-            Texture = content.Load<Texture2D>("field1");
+            Texture = LoadTexture(content);
             ScalingFactor = BlockDefenderGame.FieldSize / (float)Texture.Width;
         }
+
+        protected abstract Texture2D LoadTexture(ContentManager content);
 
         internal void Draw(SpriteBatch spriteBatch)
         {

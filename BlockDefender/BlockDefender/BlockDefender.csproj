@@ -108,9 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Field.cs" />
+    <Compile Include="PlainField.cs" />
+    <Compile Include="Playground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="BlockDefenderGame.cs" />
+    <Compile Include="SolidField.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
