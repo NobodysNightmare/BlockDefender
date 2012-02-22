@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Text;
 
 namespace BlockDefender
 {
@@ -16,8 +17,10 @@ namespace BlockDefender
     /// </summary>
     public class BlockDefenderGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
+        private SpriteFont SystemFont;
 
         public BlockDefenderGame()
         {
@@ -47,6 +50,7 @@ namespace BlockDefender
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            SystemFont = Content.Load<SpriteFont>("SystemFont");
             // TODO: use this.Content to load your game content here
         }
 
@@ -82,10 +86,17 @@ namespace BlockDefender
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            drawFPS(gameTime);
+            spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void drawFPS(GameTime time)
+        {
+            StringBuilder myFPSText = new StringBuilder(Math.Round(1 / time.ElapsedGameTime.TotalSeconds).ToString()).Append(" FPS");
+            spriteBatch.DrawString(SystemFont, myFPSText, Vector2.One, Color.White);
         }
     }
 }
