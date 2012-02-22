@@ -26,10 +26,13 @@ namespace BlockDefender.Fields
             }
         }
 
+        public bool IsAccessible { get; protected set; }
+
         public Field(int column, int row)
         {
             Position = new Vector2(column * BlockDefenderGame.FieldSize, row * BlockDefenderGame.FieldSize);
             ScalingFactor = 1f;
+            IsAccessible = true;
         }
 
         public void Load(ContentManager content)
@@ -40,9 +43,19 @@ namespace BlockDefender.Fields
 
         protected abstract Texture2D LoadTexture(ContentManager content);
 
-        internal void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0, Vector2.Zero, ScalingFactor, SpriteEffects.None, 1f);
+        }
+
+        public static int CalculateColumn(Vector2 position)
+        {
+            return (int)Math.Floor(position.X / BlockDefenderGame.FieldSize);
+        }
+
+        public static int CalculateRow(Vector2 position)
+        {
+            return (int)Math.Floor(position.Y / BlockDefenderGame.FieldSize);
         }
     }
 }

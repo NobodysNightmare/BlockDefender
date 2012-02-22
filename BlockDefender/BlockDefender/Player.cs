@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using BlockDefender.Fields;
 
 namespace BlockDefender
 {
@@ -21,6 +22,8 @@ namespace BlockDefender
         public Vector2 Position { get; private set; }
         public PlayerHeading Heading { get; private set; }
         public static readonly float MovementSpeed = 5f;
+
+        private Playground Playground;
 
         private float ScalingFactor;
         private Vector2 TextureCenter;
@@ -43,8 +46,9 @@ namespace BlockDefender
             }
         }
 
-        public Player(Vector2 spawnPosition)
+        public Player(Playground playground, Vector2 spawnPosition)
         {
+            Playground = playground;
             Position = spawnPosition;
             TexturesByHeading = new Texture2D[4];
             InitializeHeadingVectors();
@@ -77,7 +81,10 @@ namespace BlockDefender
         public void Move(PlayerHeading movementDirection)
         {
             Heading = movementDirection;
-            Position += Vector2.Multiply(HeadingVector, MovementSpeed);
+            var nextPosition = Position + Vector2.Multiply(HeadingVector, MovementSpeed);
+            var nextField = Playground.FieldAt(Field.CalculateColumn(nextPosition), Field.CalculateRow(nextPosition));
+            if (nextField.IsAccessible)
+                Position = nextPosition;
         }
     }
 }

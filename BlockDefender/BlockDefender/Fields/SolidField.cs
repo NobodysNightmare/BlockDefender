@@ -9,9 +9,13 @@ namespace BlockDefender.Fields
 {
     class SolidField : Field
     {
+        public static readonly SolidField BorderField = new SolidField(-1, -1);
+
         public SolidField(int column, int row)
             : base(column, row)
-        { }
+        {
+            IsAccessible = false;
+        }
 
         protected override Texture2D LoadTexture(ContentManager content)
         {

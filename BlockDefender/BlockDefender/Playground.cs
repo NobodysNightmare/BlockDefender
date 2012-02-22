@@ -52,9 +52,17 @@ namespace BlockDefender
             }
         }
 
-        public Vector2 GetNextSpawnPosition()
+        public Player SpawnNextPlayer()
         {
-            return Fields[1, 1].Center;
+            return new Player(this, Fields[1, 1].Center);
+        }
+
+        public Field FieldAt(int column, int row)
+        {
+            if (column < 0 || row < 0 || column >= ColumnCount || row >= RowCount)
+                return SolidField.BorderField;
+
+            return Fields[column, row];
         }
     }
 }
