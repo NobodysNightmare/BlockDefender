@@ -22,7 +22,8 @@ namespace BlockDefender
         private float GlobalScale;
 
         private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        private SpriteBatch GameSprites;
+        private SpriteBatch HUDSprites;
 
         private SpriteFont SystemFont;
 
@@ -53,7 +54,8 @@ namespace BlockDefender
         /// </summary>
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            GameSprites = new SpriteBatch(GraphicsDevice);
+            HUDSprites = new SpriteBatch(GraphicsDevice);
 
             SystemFont = Content.Load<SpriteFont>("SystemFont");
             GlobalScale = ((float)graphics.GraphicsDevice.Viewport.Width / Playground.Width) / FieldSize;
@@ -98,10 +100,14 @@ namespace BlockDefender
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.CreateScale(GlobalScale));
+            GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
+                              DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.CreateScale(GlobalScale));
+            Playground.Draw(GameSprites);
+            GameSprites.End();
+
+            HUDSprites.Begin();
             drawFPS(gameTime);
-            Playground.Draw(spriteBatch);
-            spriteBatch.End();
+            HUDSprites.End();
             
             base.Draw(gameTime);
         }
@@ -109,7 +115,7 @@ namespace BlockDefender
         private void drawFPS(GameTime time)
         {
             StringBuilder myFPSText = new StringBuilder(Math.Round(1 / time.ElapsedGameTime.TotalSeconds).ToString()).Append(" FPS");
-            spriteBatch.DrawString(SystemFont, myFPSText, Vector2.One, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            HUDSprites.DrawString(SystemFont, myFPSText, Vector2.One, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
