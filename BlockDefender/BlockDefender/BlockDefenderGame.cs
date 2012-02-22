@@ -64,10 +64,10 @@ namespace BlockDefender
             Playground.Load(Content);
             PlayerOne.Load(Content);
 
-            float desiredFieldSize = (float)graphics.GraphicsDevice.Viewport.Width / Playground.ColumnCount;
+            float desiredFieldSize = (float)graphics.GraphicsDevice.Viewport.Width / (Playground.ColumnCount + 1);
             GameScale = desiredFieldSize / FieldSize;
             float emptyVerticalSpace = graphics.GraphicsDevice.Viewport.Height - (desiredFieldSize * Playground.RowCount);
-            GameOffset = new Vector3(0, emptyVerticalSpace / 2, 0);
+            GameOffset = new Vector3(desiredFieldSize / 2, emptyVerticalSpace / 2, 0);
         }
 
         /// <summary>
