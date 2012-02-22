@@ -19,7 +19,8 @@ namespace BlockDefender
     {
         public const int FieldSize = 100;
 
-        private float GlobalScale;
+        private float GameScale;
+        private Vector3 GameOffset;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch GameSprites;
@@ -56,10 +57,13 @@ namespace BlockDefender
         {
             GameSprites = new SpriteBatch(GraphicsDevice);
             HUDSprites = new SpriteBatch(GraphicsDevice);
-
             SystemFont = Content.Load<SpriteFont>("SystemFont");
-            GlobalScale = ((float)graphics.GraphicsDevice.Viewport.Width / Playground.ColumnCount) / FieldSize;
             Playground.Load(Content);
+
+            float desiredFieldSize = (float)graphics.GraphicsDevice.Viewport.Width / Playground.ColumnCount;
+            GameScale = desiredFieldSize / FieldSize;
+            float emptyVerticalSpace = graphics.GraphicsDevice.Viewport.Height - (desiredFieldSize * Playground.RowCount);
+            GameOffset = new Vector3(0, emptyVerticalSpace / 2, 0);
         }
 
         /// <summary>
@@ -100,8 +104,10 @@ namespace BlockDefender
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            Matrix gameTransform = Matrix.CreateScale(GameScale);
+            gameTransform.Translation = GameOffset;
             GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
-                              DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.CreateScale(GlobalScale));
+                              DepthStencilState.Default, RasterizerState.CullNone, null, gameTransform);
             Playground.Draw(GameSprites);
             GameSprites.End();
 
