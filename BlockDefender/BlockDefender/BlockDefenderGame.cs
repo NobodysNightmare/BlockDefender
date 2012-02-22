@@ -29,6 +29,7 @@ namespace BlockDefender
         private SpriteFont SystemFont;
 
         private Playground Playground;
+        private Player PlayerOne;
 
         public BlockDefenderGame()
         {
@@ -45,6 +46,7 @@ namespace BlockDefender
         protected override void Initialize()
         {
             Playground = new Playground();
+            PlayerOne = new Player(Playground.GetNextSpawnPosition());
 
             base.Initialize();
         }
@@ -59,6 +61,7 @@ namespace BlockDefender
             HUDSprites = new SpriteBatch(GraphicsDevice);
             SystemFont = Content.Load<SpriteFont>("SystemFont");
             Playground.Load(Content);
+            PlayerOne.Load(Content);
 
             float desiredFieldSize = (float)graphics.GraphicsDevice.Viewport.Width / Playground.ColumnCount;
             GameScale = desiredFieldSize / FieldSize;
@@ -109,6 +112,7 @@ namespace BlockDefender
             GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
                               DepthStencilState.Default, RasterizerState.CullNone, null, gameTransform);
             Playground.Draw(GameSprites);
+            PlayerOne.Draw(GameSprites);
             GameSprites.End();
 
             HUDSprites.Begin();

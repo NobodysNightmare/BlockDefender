@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using BlockDefender.Fields;
+using Microsoft.Xna.Framework;
 
 namespace BlockDefender
 {
@@ -49,6 +50,11 @@ namespace BlockDefender
             {
                 field.Draw(spriteBatch);
             }
+        }
+
+        public Vector2 GetNextSpawnPosition()
+        {
+            return Fields[1, 1].Center;
         }
     }
 }

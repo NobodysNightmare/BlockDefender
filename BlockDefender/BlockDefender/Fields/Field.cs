@@ -10,12 +10,21 @@ namespace BlockDefender.Fields
 {
     abstract class Field
     {
+        private static readonly Vector2 CenterOffset = new Vector2(BlockDefenderGame.FieldSize / 2, BlockDefenderGame.FieldSize / 2);
         private Texture2D Texture;
 
         //top-left corner in scene-coordinates
         private Vector2 Position;
 
         private float ScalingFactor;
+
+        public Vector2 Center
+        {
+            get
+            {
+                return Position + CenterOffset;
+            }
+        }
 
         public Field(int column, int row)
         {
