@@ -22,20 +22,14 @@ namespace BlockDefender
 
         private void PopulateFields()
         {
-            var r = new Random();
             for (int column = 0; column < Width; column++)
             {
                 for (int row = 0; row < Height; row++)
                 {
-                    switch (r.Next(2))
-                    {
-                        case 0:
-                            Fields[column, row] = new SolidField(column, row);
-                            break;
-                        default:
-                            Fields[column, row] = new PlainField(column, row);
-                            break;
-                    }
+                    if((column % 4 != 2) || (row % 3 != 2))
+                        Fields[column, row] = new PlainField(column, row);
+                    else
+                        Fields[column, row] = new SolidField(column, row);
                 }
             }
         }
