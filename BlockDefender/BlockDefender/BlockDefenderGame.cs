@@ -13,9 +13,6 @@ using BlockDefender.Fields;
 
 namespace BlockDefender
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class BlockDefenderGame : Microsoft.Xna.Framework.Game
     {
         public const int FieldSize = 100;
@@ -38,12 +35,6 @@ namespace BlockDefender
             Content.RootDirectory = "Content";
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
             Playground = new Playground();
@@ -52,10 +43,6 @@ namespace BlockDefender
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
             GameSprites = new SpriteBatch(GraphicsDevice);
@@ -70,26 +57,14 @@ namespace BlockDefender
             GameOffset = new Vector3(desiredFieldSize / 2, emptyVerticalSpace / 2, 0);
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
             UpdateInput();
-
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -118,10 +93,6 @@ namespace BlockDefender
             }
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
