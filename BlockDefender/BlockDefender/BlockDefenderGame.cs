@@ -17,10 +17,18 @@ namespace BlockDefender
     /// </summary>
     public class BlockDefenderGame : Microsoft.Xna.Framework.Game
     {
+        public const int FieldSize = 100;
+        public const int PlaygroundWidth = 10;
+
+        private float GlobalScale;
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
         private SpriteFont SystemFont;
+
+        private Field f1;
+        private Field f2;
 
         public BlockDefenderGame()
         {
@@ -36,7 +44,8 @@ namespace BlockDefender
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            f1 = new Field(0, 0);
+            f2 = new Field(9, 1);
 
             base.Initialize();
         }
@@ -47,11 +56,12 @@ namespace BlockDefender
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             SystemFont = Content.Load<SpriteFont>("SystemFont");
-            // TODO: use this.Content to load your game content here
+            GlobalScale = ((float)graphics.GraphicsDevice.Viewport.Width / PlaygroundWidth) / FieldSize;
+            f1.Load(Content);
+            f2.Load(Content);
         }
 
         /// <summary>
@@ -86,10 +96,12 @@ namespace BlockDefender
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.CreateScale(GlobalScale));
             drawFPS(gameTime);
+            f1.Draw(spriteBatch);
+            f2.Draw(spriteBatch);
             spriteBatch.End();
-
+            
             base.Draw(gameTime);
         }
 
