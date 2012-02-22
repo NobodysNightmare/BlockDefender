@@ -81,12 +81,18 @@ namespace BlockDefender
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            UpdateInput();
 
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+        }
+
+        private void UpdateInput()
+        {
+            var keyState = Keyboard.GetState();
+            if (keyState.IsKeyDown(Keys.Escape))
+                Exit();
         }
 
         /// <summary>
@@ -108,7 +114,7 @@ namespace BlockDefender
         private void drawFPS(GameTime time)
         {
             StringBuilder myFPSText = new StringBuilder(Math.Round(1 / time.ElapsedGameTime.TotalSeconds).ToString()).Append(" FPS");
-            spriteBatch.DrawString(SystemFont, myFPSText, Vector2.One, Color.White);
+            spriteBatch.DrawString(SystemFont, myFPSText, Vector2.One, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
