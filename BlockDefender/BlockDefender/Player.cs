@@ -20,9 +20,19 @@ namespace BlockDefender
     {
         public Vector2 Position { get; private set; }
         public PlayerHeading Heading { get; private set; }
+        public static readonly float MovementSpeed = 5f;
 
         private float ScalingFactor;
         private Vector2 TextureCenter;
+
+        private Vector2[] HeadingVectors;
+        private Vector2 HeadingVector
+        {
+            get
+            {
+                return HeadingVectors[(int)Heading];
+            }
+        }
 
         private Texture2D[] TexturesByHeading;
         private Texture2D Texture
@@ -37,6 +47,16 @@ namespace BlockDefender
         {
             Position = spawnPosition;
             TexturesByHeading = new Texture2D[4];
+            InitializeHeadingVectors();
+        }
+
+        private void InitializeHeadingVectors()
+        {
+            HeadingVectors = new Vector2[4];
+            HeadingVectors[(int)PlayerHeading.Up] = -Vector2.UnitY;
+            HeadingVectors[(int)PlayerHeading.Down] = Vector2.UnitY;
+            HeadingVectors[(int)PlayerHeading.Right] = Vector2.UnitX;
+            HeadingVectors[(int)PlayerHeading.Left] = -Vector2.UnitX;
         }
 
         public void Load(ContentManager content)
@@ -52,6 +72,12 @@ namespace BlockDefender
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0, TextureCenter, ScalingFactor, SpriteEffects.None, 1f);
+        }
+
+        public void Move(PlayerHeading movementDirection)
+        {
+            Heading = movementDirection;
+            Position += Vector2.Multiply(HeadingVector, MovementSpeed);
         }
     }
 }

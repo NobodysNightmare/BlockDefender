@@ -98,6 +98,23 @@ namespace BlockDefender
             var keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (keyState.IsKeyDown(Keys.W))
+            {
+                PlayerOne.Move(PlayerHeading.Up);
+            }
+            else if (keyState.IsKeyDown(Keys.A))
+            {
+                PlayerOne.Move(PlayerHeading.Left);
+            }
+            else if (keyState.IsKeyDown(Keys.S))
+            {
+                PlayerOne.Move(PlayerHeading.Down);
+            }
+            else if (keyState.IsKeyDown(Keys.D))
+            {
+                PlayerOne.Move(PlayerHeading.Right);
+            }
         }
 
         /// <summary>
