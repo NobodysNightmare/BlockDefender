@@ -11,9 +11,13 @@ namespace BlockDefender.Networking
         public Map Map { get; private set; }
 
         internal override void ReadFrom(BinaryReader reader)
-        { }
+        {
+            Map = new MapReader(reader).ReadMap();
+        }
 
         internal override void WriteTo(BinaryWriter writer)
-        { }
+        {
+            new MapWriter(writer).WriteMap(Map);
+        }
     }
 }

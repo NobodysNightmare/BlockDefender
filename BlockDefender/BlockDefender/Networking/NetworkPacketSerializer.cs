@@ -6,7 +6,7 @@ using System.IO;
 
 namespace BlockDefender.Networking
 {
-    class NetworkPacketFactory
+    class NetworkPacketSerializer
     {
         private enum PacketType : byte
         {

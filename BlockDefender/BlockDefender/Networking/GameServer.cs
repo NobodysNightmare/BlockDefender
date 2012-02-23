@@ -77,7 +77,7 @@ namespace BlockDefender.Networking
             {
                 try
                 {
-                    NetworkPacket packet = NetworkPacketFactory.ReadPacket(stream);
+                    NetworkPacket packet = NetworkPacketSerializer.ReadPacket(stream);
                     ProcessPacket(packet);
                 }
                 catch (UnsupportedPacketException)
