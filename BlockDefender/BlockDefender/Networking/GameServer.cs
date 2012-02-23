@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Net.Sockets;
 using System.Net;
+using System.IO;
 
 namespace BlockDefender.Networking
 {
@@ -85,6 +86,10 @@ namespace BlockDefender.Networking
                 {
                     NetworkPacket packet = NetworkPacketSerializer.ReadPacket(stream);
                     ProcessPacket(packet, stream);
+                }
+                catch (IOException)
+                {
+                    DropConnection(socket);
                 }
                 catch (UnsupportedPacketException)
                 {

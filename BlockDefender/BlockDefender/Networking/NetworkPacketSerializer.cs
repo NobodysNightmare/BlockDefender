@@ -36,7 +36,7 @@ namespace BlockDefender.Networking
 
         internal static void WritePacket(NetworkPacket packet, Stream stream)
         {
-            var writer = new BinaryWriter(stream);
+            var writer = new BinaryWriter(stream);  //do not dispose, stream has to stay open
             SendPacketIdentifier(writer, packet);
             packet.WriteTo(writer);
         }
