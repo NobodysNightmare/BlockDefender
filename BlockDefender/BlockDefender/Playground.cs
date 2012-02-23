@@ -74,7 +74,11 @@ namespace BlockDefender
 
         public Player SpawnPlayerAt(Vector2 position)
         {
-            var p = new Player(this, position);
+            int nextId = 0;
+            if(PlayerList.Count > 0)
+                nextId = PlayerList.Max(player => player.Id) + 1;
+
+            var p = new Player(nextId, this, position);
             AddPlayer(p);
             return p;
         }

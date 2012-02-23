@@ -19,9 +19,11 @@ namespace BlockDefender
 
     class Player
     {
+        public static readonly float MovementSpeed = 5f;
+
         public Vector2 Position { get; private set; }
         public PlayerHeading Heading { get; private set; }
-        public static readonly float MovementSpeed = 5f;
+        public int Id { get; private set; }
 
         private Playground Playground;
 
@@ -46,8 +48,9 @@ namespace BlockDefender
             }
         }
 
-        public Player(Playground playground, Vector2 spawnPosition)
+        public Player(int id, Playground playground, Vector2 spawnPosition)
         {
+            Id = id;
             Playground = playground;
             Position = spawnPosition;
             TexturesByHeading = new Texture2D[4];

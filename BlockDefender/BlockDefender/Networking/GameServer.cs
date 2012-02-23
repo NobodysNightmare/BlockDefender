@@ -109,6 +109,7 @@ namespace BlockDefender.Networking
                 }
                 var newPlayer = Playground.SpawnNextPlayer();
                 BoradcastPacket(new PlayerSpawnPacket(newPlayer.Position));
+                NetworkPacketSerializer.WritePacket(new AssignPlayerPacket(newPlayer.Id), source);
             }
         }
 
