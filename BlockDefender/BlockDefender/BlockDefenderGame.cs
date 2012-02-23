@@ -72,22 +72,22 @@ namespace BlockDefender
         private void UpdateInput()
         {
             var keyState = Keyboard.GetState();
-            if (keyState.IsKeyDown(Keys.Escape))
+            if (keyState.IsKeyDown(AppSettings.Default.Exit))
                 Exit();
 
-            if (keyState.IsKeyDown(Keys.W))
+            if (keyState.IsKeyDown(AppSettings.Default.MoveUp))
             {
                 PlayerOne.Move(PlayerHeading.Up);
             }
-            else if (keyState.IsKeyDown(Keys.A))
+            else if (keyState.IsKeyDown(AppSettings.Default.MoveLeft))
             {
                 PlayerOne.Move(PlayerHeading.Left);
             }
-            else if (keyState.IsKeyDown(Keys.S))
+            else if (keyState.IsKeyDown(AppSettings.Default.MoveDown))
             {
                 PlayerOne.Move(PlayerHeading.Down);
             }
-            else if (keyState.IsKeyDown(Keys.D))
+            else if (keyState.IsKeyDown(AppSettings.Default.MoveRight))
             {
                 PlayerOne.Move(PlayerHeading.Right);
             }
