@@ -29,7 +29,6 @@ namespace BlockDefender
 
         private Playground Playground;
         private NetworkClient NetworkClient;
-        private Player PlayerOne;
 
         public BlockDefenderGame()
         {
@@ -43,7 +42,6 @@ namespace BlockDefender
             server.Start();
             NetworkClient = new NetworkClient();
             Playground = NetworkClient.EstablishConnection();
-            PlayerOne = Playground.SpawnNextPlayer();
 
             base.Initialize();
         }
@@ -83,23 +81,23 @@ namespace BlockDefender
 
             if (keyState.IsKeyDown(AppSettings.Default.MoveUp))
             {
-                PlayerOne.Move(PlayerHeading.Up);
+                NetworkClient.MovePlayer(PlayerHeading.Up);
             }
             else if (keyState.IsKeyDown(AppSettings.Default.MoveLeft))
             {
-                PlayerOne.Move(PlayerHeading.Left);
+                NetworkClient.MovePlayer(PlayerHeading.Left);
             }
             else if (keyState.IsKeyDown(AppSettings.Default.MoveDown))
             {
-                PlayerOne.Move(PlayerHeading.Down);
+                NetworkClient.MovePlayer(PlayerHeading.Down);
             }
             else if (keyState.IsKeyDown(AppSettings.Default.MoveRight))
             {
-                PlayerOne.Move(PlayerHeading.Right);
+                NetworkClient.MovePlayer(PlayerHeading.Right);
             }
             else if (keyState.IsKeyDown(AppSettings.Default.Interact))
             {
-                PlayerOne.Interact();
+                NetworkClient.PlayerInteract();
             }
 
             for (int i = 0; i < Playground.ColumnCount; i++)

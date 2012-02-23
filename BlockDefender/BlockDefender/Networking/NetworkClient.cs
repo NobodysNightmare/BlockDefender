@@ -10,6 +10,7 @@ namespace BlockDefender.Networking
     {
         private NetworkStream Stream;
         private Playground Playground;
+        private Player AssignedPlayer;
 
         public NetworkClient()
         {
@@ -31,6 +32,23 @@ namespace BlockDefender.Networking
             throw new Exception("Expected a welcome packet but received something else!");
         }
 
+        public void MovePlayer(PlayerHeading direction)
+        {
+            if (AssignedPlayer == null)
+                return;
+
+            AssignedPlayer.Move(direction);
+            //TODO: send position-update to server
+            //TODO: move/interact might be pulled into own interface implemented by Player and some kind of network-decorator for Player
+        }
+
+        public void PlayerInteract()
+        {
+            //TODO: might need rework to work properly over network
+            if (AssignedPlayer != null)
+                AssignedPlayer.Interact();
+        }
+
         public void Update()
         {
             while (Stream.DataAvailable)
@@ -44,12 +62,19 @@ namespace BlockDefender.Networking
         {
             if (packet is PlayerSpawnPacket)
                 ProcessPacket((PlayerSpawnPacket)packet);
+            else if(packet is AssignPlayerPacket)
+                ProcessPacket((AssignPlayerPacket)packet);
         }
 
         private void ProcessPacket(PlayerSpawnPacket spawnPacket)
         {
             var p = new Player(spawnPacket.Id, Playground, spawnPacket.Position);
             Playground.AddPlayer(p);
+        }
+
+        private void ProcessPacket(AssignPlayerPacket assignPacket)
+        {
+            AssignedPlayer = Playground.Players.Single(player => player.Id == assignPacket.PlayerId);
         }
 
         public void Dispose()
