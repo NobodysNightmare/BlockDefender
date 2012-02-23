@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using BlockDefender.Fields;
 using Microsoft.Xna.Framework;
+using System.Collections.ObjectModel;
 
 namespace BlockDefender
 {
@@ -13,7 +14,15 @@ namespace BlockDefender
     {
         private Map Map;
 
-        private List<Player> Players;
+        private List<Player> PlayerList;
+
+        public IEnumerable<Player> Players
+        {
+            get
+            {
+                return new ReadOnlyCollection<Player>(PlayerList);
+            }
+        }
 
         public int ColumnCount
         {
@@ -34,7 +43,7 @@ namespace BlockDefender
         public Playground(Map map)
         {
             Map = map;
-            Players = new List<Player>();
+            PlayerList = new List<Player>();
         }
 
         public void Load(ContentManager Content)
@@ -52,7 +61,7 @@ namespace BlockDefender
                 field.Draw(spriteBatch);
             }
 
-            foreach (var player in Players)
+            foreach (var player in PlayerList)
             {
                 player.Draw(spriteBatch);
             }
@@ -72,7 +81,7 @@ namespace BlockDefender
 
         public void AddPlayer(Player p)
         {
-            Players.Add(p);
+            PlayerList.Add(p);
         }
 
         public Field FieldAt(int column, int row)

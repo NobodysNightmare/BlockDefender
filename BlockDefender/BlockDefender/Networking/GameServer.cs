@@ -103,6 +103,23 @@ namespace BlockDefender.Networking
             if (packet is JoinRequestPacket)
             {
                 NetworkPacketSerializer.WritePacket(new WelcomePacket(Map), source);
+                foreach (var player in Playground.Players)
+                {
+                    NetworkPacketSerializer.WritePacket(new PlayerSpawnPacket(player.Position), source);
+                }
+                var newPlayer = Playground.SpawnNextPlayer();
+                BoradcastPacket(new PlayerSpawnPacket(newPlayer.Position));
+            }
+        }
+
+        private void BoradcastPacket(NetworkPacket packet)
+        {
+            foreach (var socket in ActiveSockets.Where(socket => socket != ListenSocket))
+            {
+                using (var stream = new NetworkStream(socket))
+                {
+                    NetworkPacketSerializer.WritePacket(packet, stream);
+                }
             }
         }
 
