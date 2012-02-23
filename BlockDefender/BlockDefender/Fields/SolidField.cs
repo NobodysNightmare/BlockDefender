@@ -17,6 +17,12 @@ namespace BlockDefender.Fields
             IsAccessible = false;
         }
 
+        public SolidField(Field field)
+            : base(field)
+        {
+            IsAccessible = false;
+        }
+
         protected override Texture2D LoadTexture(ContentManager content)
         {
             return content.Load<Texture2D>("field1");

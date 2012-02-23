@@ -31,7 +31,7 @@ namespace BlockDefender
                     if((column % 4 != 2) || (row % 3 != 2))
                         Fields[column, row] = new PlainField(column, row);
                     else
-                        Fields[column, row] = new SolidField(column, row);
+                        Fields[column, row] = new DestructibleField(column, row);
                 }
             }
         }

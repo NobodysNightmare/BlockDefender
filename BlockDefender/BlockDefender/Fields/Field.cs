@@ -27,12 +27,21 @@ namespace BlockDefender.Fields
         }
 
         public bool IsAccessible { get; protected set; }
+        public bool IsDestructible { get; protected set; }
 
         public Field(int column, int row)
         {
             Position = new Vector2(column * BlockDefenderGame.FieldSize, row * BlockDefenderGame.FieldSize);
             ScalingFactor = 1f;
             IsAccessible = true;
+            IsDestructible = false;
+        }
+
+        public Field(Field field)
+        {
+            this.Position = field.Position;
+            IsAccessible = true;
+            IsDestructible = false;
         }
 
         public void Load(ContentManager content)

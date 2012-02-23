@@ -20,5 +20,8 @@
     <Setting Name="ListenPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1337</Value>
     </Setting>
+    <Setting Name="Interact" Type="Microsoft.Xna.Framework.Input.Keys" Scope="User">
+      <Value Profile="(Default)">E</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
