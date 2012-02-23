@@ -10,8 +10,9 @@ namespace BlockDefender.Networking
     {
         private enum PacketType : byte
         {
-            None = 0, JoinRequest = 1, Welcome = 2
+            None, JoinRequest, Welcome, PlayerSpawn
         }
+
         internal static NetworkPacket ReadPacket(Stream stream)
         {
             var reader = new BinaryReader(stream); //do not dispose, stream has to stay open
@@ -29,6 +30,8 @@ namespace BlockDefender.Networking
                     return new JoinRequestPacket();
                 case PacketType.Welcome:
                     return new WelcomePacket();
+                case PacketType.PlayerSpawn:
+                    return new PlayerSpawnPacket();
                 default:
                     throw new UnsupportedPacketException();
             }
@@ -47,6 +50,8 @@ namespace BlockDefender.Networking
                 writer.Write((byte)PacketType.JoinRequest);
             else if (packet is WelcomePacket)
                 writer.Write((byte)PacketType.Welcome);
+            else if (packet is PlayerSpawnPacket)
+                writer.Write((byte)PacketType.PlayerSpawn);
         }
     }
 }

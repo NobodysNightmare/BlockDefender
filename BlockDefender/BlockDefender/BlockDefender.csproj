@@ -118,6 +118,7 @@
     <Compile Include="Map.cs" />
     <Compile Include="Networking\MapSerializer.cs" />
     <Compile Include="Networking\NetworkClient.cs" />
+    <Compile Include="Networking\PlayerSpawnPacket.cs" />
     <Compile Include="Networking\UnsupportedDataException.cs" />
     <Compile Include="Networking\WelcomePacket.cs" />
     <Compile Include="Networking\GameServer.cs" />

@@ -19,14 +19,14 @@ namespace BlockDefender.Networking
         private Socket ListenSocket;
         private List<Socket> ActiveSockets;
 
-        public GameServer(Map map)
+        public GameServer(Map map, int port)
         {
             Map = map;
             Playground = new Playground(Map);
 
             ActiveSockets = new List<Socket>();
             ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            ListenSocket.Bind(new IPEndPoint(IPAddress.Any, AppSettings.Default.ListenPort));
+            ListenSocket.Bind(new IPEndPoint(IPAddress.Any, port));
             ActiveSockets.Add(ListenSocket);
         }
 
@@ -56,7 +56,7 @@ namespace BlockDefender.Networking
             }
             catch (ThreadAbortException)
             {
-                //TODO: clean up
+                //TODO: clean up & close all connections
             }
         }
 

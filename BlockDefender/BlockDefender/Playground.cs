@@ -60,7 +60,12 @@ namespace BlockDefender
 
         public Player SpawnNextPlayer()
         {
-            var p = new Player(this, Map.Fields[1, 1].Center);
+           return SpawnPlayerAt(Map.Fields[1, 1].Center);
+        }
+
+        public Player SpawnPlayerAt(Vector2 position)
+        {
+            var p = new Player(this, position);
             AddPlayer(p);
             return p;
         }
