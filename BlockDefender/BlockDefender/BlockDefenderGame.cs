@@ -105,7 +105,6 @@ namespace BlockDefender
             GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
                               DepthStencilState.Default, RasterizerState.CullNone, null, gameTransform);
             Playground.Draw(GameSprites);
-            PlayerOne.Draw(GameSprites);
             GameSprites.End();
 
             HUDSprites.Begin();

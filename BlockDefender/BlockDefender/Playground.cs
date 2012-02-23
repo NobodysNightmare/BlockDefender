@@ -13,6 +13,8 @@ namespace BlockDefender
     {
         private Map Map;
 
+        private List<Player> Players;
+
         public int ColumnCount
         {
             get
@@ -32,6 +34,7 @@ namespace BlockDefender
         public Playground(Map map)
         {
             Map = map;
+            Players = new List<Player>();
         }
 
         public void Load(ContentManager Content)
@@ -48,11 +51,23 @@ namespace BlockDefender
             {
                 field.Draw(spriteBatch);
             }
+
+            foreach (var player in Players)
+            {
+                player.Draw(spriteBatch);
+            }
         }
 
         public Player SpawnNextPlayer()
         {
-            return new Player(this, Map.Fields[1, 1].Center);
+            var p = new Player(this, Map.Fields[1, 1].Center);
+            AddPlayer(p);
+            return p;
+        }
+
+        public void AddPlayer(Player p)
+        {
+            Players.Add(p);
         }
 
         public Field FieldAt(int column, int row)

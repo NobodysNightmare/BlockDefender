@@ -9,6 +9,7 @@ namespace BlockDefender.Networking
     class NetworkClient : IDisposable
     {
         private NetworkStream Stream;
+        private Playground Playground;
 
         public NetworkClient()
         {
@@ -23,7 +24,10 @@ namespace BlockDefender.Networking
             var packet = NetworkPacketSerializer.ReadPacket(Stream);
             var welcome = packet as WelcomePacket;
             if (packet != null)
-                return new Playground(welcome.Map);
+            {
+                Playground = new Playground(welcome.Map);
+                return Playground;
+            }
             throw new Exception("Expected a welcome packet but received something else!");
         }
 
