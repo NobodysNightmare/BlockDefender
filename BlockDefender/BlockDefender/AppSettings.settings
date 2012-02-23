@@ -23,5 +23,11 @@
     <Setting Name="Interact" Type="Microsoft.Xna.Framework.Input.Keys" Scope="User">
       <Value Profile="(Default)">E</Value>
     </Setting>
+    <Setting Name="ConnectHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="ConnectPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1337</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

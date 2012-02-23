@@ -10,16 +10,21 @@ namespace BlockDefender.Networking
 {
     class GameServer
     {
+        private const int BacklogSize = 5;
+
         private Thread ServerThread;
-        private Playground Map;
+        private Map Map;
+        private Playground Playground;
         private Socket ListenSocket;
         private List<Socket> ActiveSockets;
 
-        public GameServer(Playground map)
+        public GameServer(Map map)
         {
             Map = map;
+            Playground = new Playground(Map);
+
             ActiveSockets = new List<Socket>();
-            ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+            ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             ListenSocket.Bind(new IPEndPoint(IPAddress.Any, AppSettings.Default.ListenPort));
             ActiveSockets.Add(ListenSocket);
         }
@@ -40,6 +45,7 @@ namespace BlockDefender.Networking
 
         private void RunServerLoop()
         {
+            ListenSocket.Listen(BacklogSize);
             try
             {
                 while (true)
@@ -77,8 +83,8 @@ namespace BlockDefender.Networking
             {
                 try
                 {
-                    NetworkPacket packet = NetworkPacketFactory.ReadPacket(stream);
-                    ProcessPacket(packet);
+                    NetworkPacket packet = NetworkPacketSerializer.ReadPacket(stream);
+                    ProcessPacket(packet, stream);
                 }
                 catch (UnsupportedPacketException)
                 {
@@ -87,9 +93,12 @@ namespace BlockDefender.Networking
             }
         }
 
-        private void ProcessPacket(NetworkPacket packet)
+        private void ProcessPacket(NetworkPacket packet, NetworkStream source)
         {
-            throw new NotImplementedException();
+            if (packet is JoinRequestPacket)
+            {
+                NetworkPacketSerializer.WritePacket(new WelcomePacket(Map), source);
+            }
         }
 
         private void DropConnection(Socket socket)

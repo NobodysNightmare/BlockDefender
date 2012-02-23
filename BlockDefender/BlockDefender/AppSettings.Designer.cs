@@ -106,5 +106,29 @@ namespace BlockDefender {
                 this["Interact"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string ConnectHost {
+            get {
+                return ((string)(this["ConnectHost"]));
+            }
+            set {
+                this["ConnectHost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1337")]
+        public int ConnectPort {
+            get {
+                return ((int)(this["ConnectPort"]));
+            }
+            set {
+                this["ConnectPort"] = value;
+            }
+        }
     }
 }

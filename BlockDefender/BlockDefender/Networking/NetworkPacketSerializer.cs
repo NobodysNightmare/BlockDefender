@@ -6,20 +6,17 @@ using System.IO;
 
 namespace BlockDefender.Networking
 {
-    class NetworkPacketFactory
+    class NetworkPacketSerializer
     {
         private enum PacketType : byte
         {
-            None, Join, Welcome
+            None = 0, JoinRequest = 1, Welcome = 2
         }
         internal static NetworkPacket ReadPacket(Stream stream)
         {
-            NetworkPacket packet = null;
-            using (var reader = new BinaryReader(stream))
-            {
-                packet = InstanciatePacket(reader);
-                packet.ReadFrom(reader);
-            }
+            var reader = new BinaryReader(stream); //do not dispose, stream has to stay open
+            NetworkPacket packet = InstanciatePacket(reader);
+            packet.ReadFrom(reader);
             return packet;
         }
 
@@ -28,8 +25,10 @@ namespace BlockDefender.Networking
             PacketType type = (PacketType)reader.ReadByte();
             switch (type)
             {
-                case PacketType.Join:
-                    return new JoinPacket();
+                case PacketType.JoinRequest:
+                    return new JoinRequestPacket();
+                case PacketType.Welcome:
+                    return new WelcomePacket();
                 default:
                     throw new UnsupportedPacketException();
             }
@@ -37,17 +36,17 @@ namespace BlockDefender.Networking
 
         internal static void WritePacket(NetworkPacket packet, Stream stream)
         {
-            using (var writer = new BinaryWriter(stream))
-            {
-                SendPacketIdentifier(writer, packet);
-                packet.WriteTo(writer);
-            }
+            var writer = new BinaryWriter(stream);
+            SendPacketIdentifier(writer, packet);
+            packet.WriteTo(writer);
         }
 
         private static void SendPacketIdentifier(BinaryWriter writer, NetworkPacket packet)
         {
-            if (packet is JoinPacket)
-                writer.Write((byte)PacketType.Join);
+            if (packet is JoinRequestPacket)
+                writer.Write((byte)PacketType.JoinRequest);
+            else if (packet is WelcomePacket)
+                writer.Write((byte)PacketType.Welcome);
         }
     }
 }

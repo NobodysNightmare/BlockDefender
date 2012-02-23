@@ -6,7 +6,7 @@ using System.IO;
 
 namespace BlockDefender.Networking
 {
-    class JoinPacket : NetworkPacket
+    class JoinRequestPacket : NetworkPacket
     {
         internal override void ReadFrom(BinaryReader reader)
         { }

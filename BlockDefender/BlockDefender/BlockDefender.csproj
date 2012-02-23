@@ -116,11 +116,14 @@
     <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\PlainField.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Networking\MapSerializer.cs" />
+    <Compile Include="Networking\NetworkClient.cs" />
+    <Compile Include="Networking\UnsupportedDataException.cs" />
     <Compile Include="Networking\WelcomePacket.cs" />
     <Compile Include="Networking\GameServer.cs" />
-    <Compile Include="Networking\JoinPacket.cs" />
+    <Compile Include="Networking\JoinRequestPacket.cs" />
     <Compile Include="Networking\NetworkPacket.cs" />
-    <Compile Include="Networking\NetworkPacketFactory.cs" />
+    <Compile Include="Networking\NetworkPacketSerializer.cs" />
     <Compile Include="Networking\UnsupportedPacketException.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Playground.cs" />
