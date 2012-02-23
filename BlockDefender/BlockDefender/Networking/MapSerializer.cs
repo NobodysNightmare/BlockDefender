@@ -9,7 +9,7 @@ namespace BlockDefender.Networking
 {
     enum FieldType : byte
     {
-        None, Plain, Solid
+        None, Plain, Solid, Destructible
     }
 
     class MapReader
@@ -45,6 +45,8 @@ namespace BlockDefender.Networking
                     return new PlainField(column, row);
                 case FieldType.Solid:
                     return new SolidField(column, row);
+                case FieldType.Destructible:
+                    return new DestructibleField(column, row);
                 default:
                     throw new UnsupportedDataException();
             }
@@ -77,6 +79,8 @@ namespace BlockDefender.Networking
                 Writer.Write((byte)FieldType.Plain);
             else if (field is SolidField)
                 Writer.Write((byte)FieldType.Solid);
+            else if (field is DestructibleField)
+                Writer.Write((byte)FieldType.Destructible);
         }
     }
 }

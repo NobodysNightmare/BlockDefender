@@ -95,6 +95,18 @@ namespace BlockDefender
             {
                 PlayerOne.Move(PlayerHeading.Right);
             }
+            else if (keyState.IsKeyDown(AppSettings.Default.Interact))
+            {
+                PlayerOne.Interact();
+            }
+
+            for (int i = 0; i < Playground.ColumnCount; i++)
+            {
+                for (int j = 0; j < Playground.RowCount; j++)
+                {
+                    Playground.FieldAt(i, j).Load(Content);
+                }
+            }
         }
 
         protected override void Draw(GameTime gameTime)

@@ -74,5 +74,10 @@ namespace BlockDefender
         {
             return Map.FieldAt(column, row);
         }
+
+        public void replaceFieldAt(int column, int row, Field field)
+        {
+            Map.Fields[column, row] = field;
+        }
     }
 }

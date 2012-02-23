@@ -13,6 +13,10 @@ namespace BlockDefender.Fields
             : base(column, row)
         { }
 
+        public PlainField(Field field)
+            : base(field)
+        { }
+
         protected override Texture2D LoadTexture(ContentManager content)
         {
             return content.Load<Texture2D>("field3");

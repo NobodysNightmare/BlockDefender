@@ -112,6 +112,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Fields\DestructibleField.cs" />
     <Compile Include="Fields\Field.cs" />
     <Compile Include="Fields\PlainField.cs" />
     <Compile Include="Map.cs" />

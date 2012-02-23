@@ -86,5 +86,15 @@ namespace BlockDefender
             if (nextField.IsAccessible)
                 Position = nextPosition;
         }
+
+        public void Interact()
+        {
+            var nextPosition = Position + Vector2.Multiply(HeadingVector, BlockDefenderGame.FieldSize);
+            var nextField = Playground.FieldAt(Field.CalculateColumn(nextPosition), Field.CalculateRow(nextPosition));
+            if (nextField.IsDestructible)
+            {
+                Playground.replaceFieldAt(Field.CalculateColumn(nextPosition), Field.CalculateRow(nextPosition), new PlainField(nextField));
+            }
+        }
     }
 }
