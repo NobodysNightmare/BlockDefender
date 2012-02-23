@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Text;
 using BlockDefender.Fields;
+using BlockDefender.Networking;
 
 namespace BlockDefender
 {
@@ -37,7 +38,10 @@ namespace BlockDefender
 
         protected override void Initialize()
         {
-            Playground = new Playground(new Map(16, 9));
+            GameServer server = new GameServer(new Map(16, 9));
+            server.Start();
+            var client = new NetworkClient();
+            Playground = client.EstablishConnection();
             PlayerOne = Playground.SpawnNextPlayer();
 
             base.Initialize();

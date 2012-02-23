@@ -10,16 +10,13 @@ namespace BlockDefender.Networking
     {
         private enum PacketType : byte
         {
-            None, Join, Welcome
+            None = 0, Join = 1, Welcome = 2
         }
         internal static NetworkPacket ReadPacket(Stream stream)
         {
-            NetworkPacket packet = null;
-            using (var reader = new BinaryReader(stream))
-            {
-                packet = InstanciatePacket(reader);
-                packet.ReadFrom(reader);
-            }
+            var reader = new BinaryReader(stream); //do not dispose, stream has to stay open
+            NetworkPacket packet = InstanciatePacket(reader);
+            packet.ReadFrom(reader);
             return packet;
         }
 
@@ -30,6 +27,8 @@ namespace BlockDefender.Networking
             {
                 case PacketType.Join:
                     return new JoinPacket();
+                case PacketType.Welcome:
+                    return new WelcomePacket();
                 default:
                     throw new UnsupportedPacketException();
             }
@@ -37,17 +36,17 @@ namespace BlockDefender.Networking
 
         internal static void WritePacket(NetworkPacket packet, Stream stream)
         {
-            using (var writer = new BinaryWriter(stream))
-            {
-                SendPacketIdentifier(writer, packet);
-                packet.WriteTo(writer);
-            }
+            var writer = new BinaryWriter(stream);
+            SendPacketIdentifier(writer, packet);
+            packet.WriteTo(writer);
         }
 
         private static void SendPacketIdentifier(BinaryWriter writer, NetworkPacket packet)
         {
             if (packet is JoinPacket)
                 writer.Write((byte)PacketType.Join);
+            else if (packet is WelcomePacket)
+                writer.Write((byte)PacketType.Welcome);
         }
     }
 }

@@ -116,6 +116,7 @@
     <Compile Include="Fields\PlainField.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Networking\MapSerializer.cs" />
+    <Compile Include="Networking\NetworkClient.cs" />
     <Compile Include="Networking\UnsupportedDataException.cs" />
     <Compile Include="Networking\WelcomePacket.cs" />
     <Compile Include="Networking\GameServer.cs" />

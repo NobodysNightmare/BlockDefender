@@ -10,6 +10,8 @@ namespace BlockDefender.Networking
 {
     class GameServer
     {
+        private const int BacklogSize = 5;
+
         private Thread ServerThread;
         private Map Map;
         private Playground Playground;
@@ -22,7 +24,7 @@ namespace BlockDefender.Networking
             Playground = new Playground(Map);
 
             ActiveSockets = new List<Socket>();
-            ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+            ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             ListenSocket.Bind(new IPEndPoint(IPAddress.Any, AppSettings.Default.ListenPort));
             ActiveSockets.Add(ListenSocket);
         }
@@ -43,6 +45,7 @@ namespace BlockDefender.Networking
 
         private void RunServerLoop()
         {
+            ListenSocket.Listen(BacklogSize);
             try
             {
                 while (true)
