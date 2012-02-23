@@ -10,7 +10,7 @@ namespace BlockDefender.Networking
     {
         private enum PacketType : byte
         {
-            None = 0, Join = 1, Welcome = 2
+            None = 0, JoinRequest = 1, Welcome = 2
         }
         internal static NetworkPacket ReadPacket(Stream stream)
         {
@@ -25,8 +25,8 @@ namespace BlockDefender.Networking
             PacketType type = (PacketType)reader.ReadByte();
             switch (type)
             {
-                case PacketType.Join:
-                    return new JoinPacket();
+                case PacketType.JoinRequest:
+                    return new JoinRequestPacket();
                 case PacketType.Welcome:
                     return new WelcomePacket();
                 default:
@@ -43,8 +43,8 @@ namespace BlockDefender.Networking
 
         private static void SendPacketIdentifier(BinaryWriter writer, NetworkPacket packet)
         {
-            if (packet is JoinPacket)
-                writer.Write((byte)PacketType.Join);
+            if (packet is JoinRequestPacket)
+                writer.Write((byte)PacketType.JoinRequest);
             else if (packet is WelcomePacket)
                 writer.Write((byte)PacketType.Welcome);
         }

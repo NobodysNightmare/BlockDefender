@@ -95,7 +95,7 @@ namespace BlockDefender.Networking
 
         private void ProcessPacket(NetworkPacket packet, NetworkStream source)
         {
-            if (packet is JoinPacket)
+            if (packet is JoinRequestPacket)
             {
                 NetworkPacketSerializer.WritePacket(new WelcomePacket(Map), source);
             }

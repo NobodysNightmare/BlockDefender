@@ -19,7 +19,7 @@ namespace BlockDefender.Networking
 
         public Playground EstablishConnection()
         {
-            NetworkPacketSerializer.WritePacket(new JoinPacket(), Stream);
+            NetworkPacketSerializer.WritePacket(new JoinRequestPacket(), Stream);
             var packet = NetworkPacketSerializer.ReadPacket(Stream);
             var welcome = packet as WelcomePacket;
             if (packet != null)
