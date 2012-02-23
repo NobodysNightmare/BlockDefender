@@ -11,13 +11,16 @@ namespace BlockDefender
 {
     class Playground
     {
-        public const int ColumnCount = 16;
-        public const int RowCount = 9;
+        public int ColumnCount { get; private set; }
+        public int RowCount { get; private set; }
 
         private Field[,] Fields;
 
-        public Playground()
+        public Playground(int columnCount, int rowCount)
         {
+            ColumnCount = columnCount;
+            RowCount = rowCount;
+
             Fields = new Field[ColumnCount, RowCount];
             PopulateFields();
         }
