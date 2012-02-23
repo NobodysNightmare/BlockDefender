@@ -31,6 +31,27 @@ namespace BlockDefender.Networking
             throw new Exception("Expected a welcome packet but received something else!");
         }
 
+        public void Update()
+        {
+            while (Stream.DataAvailable)
+            {
+                NetworkPacket packet = NetworkPacketSerializer.ReadPacket(Stream);
+                ReceiveUpdate(packet);
+            }
+        }
+
+        private void ReceiveUpdate(NetworkPacket packet)
+        {
+            if (packet is PlayerSpawnPacket)
+                ProcessPacket((PlayerSpawnPacket)packet);
+        }
+
+        private void ProcessPacket(PlayerSpawnPacket spawnPacket)
+        {
+            var p = new Player(spawnPacket.Id, Playground, spawnPacket.Position);
+            Playground.AddPlayer(p);
+        }
+
         public void Dispose()
         {
             Stream.Dispose();

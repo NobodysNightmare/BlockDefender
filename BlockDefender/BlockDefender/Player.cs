@@ -21,16 +21,17 @@ namespace BlockDefender
     {
         public static readonly float MovementSpeed = 5f;
 
+        private static Texture2D[] TexturesByHeading;
+        private static float ScalingFactor;
+        private static Vector2 TextureCenter;
+        private static Vector2[] HeadingVectors;
+
         public Vector2 Position { get; private set; }
         public PlayerHeading Heading { get; private set; }
         public int Id { get; private set; }
 
         private Playground Playground;
 
-        private float ScalingFactor;
-        private Vector2 TextureCenter;
-
-        private Vector2[] HeadingVectors;
         private Vector2 HeadingVector
         {
             get
@@ -39,7 +40,6 @@ namespace BlockDefender
             }
         }
 
-        private Texture2D[] TexturesByHeading;
         private Texture2D Texture
         {
             get
@@ -48,17 +48,9 @@ namespace BlockDefender
             }
         }
 
-        public Player(int id, Playground playground, Vector2 spawnPosition)
+        static Player()
         {
-            Id = id;
-            Playground = playground;
-            Position = spawnPosition;
             TexturesByHeading = new Texture2D[4];
-            InitializeHeadingVectors();
-        }
-
-        private void InitializeHeadingVectors()
-        {
             HeadingVectors = new Vector2[4];
             HeadingVectors[(int)PlayerHeading.Up] = -Vector2.UnitY;
             HeadingVectors[(int)PlayerHeading.Down] = Vector2.UnitY;
@@ -66,14 +58,22 @@ namespace BlockDefender
             HeadingVectors[(int)PlayerHeading.Left] = -Vector2.UnitX;
         }
 
-        public void Load(ContentManager content)
+        public Player(int id, Playground playground, Vector2 spawnPosition)
+        {
+            Id = id;
+            Playground = playground;
+            Position = spawnPosition;
+        }
+
+        public static void LoadAssets(ContentManager content)
         {
             TexturesByHeading[(int)PlayerHeading.Up] = content.Load<Texture2D>("player-up");
             TexturesByHeading[(int)PlayerHeading.Down] = content.Load<Texture2D>("player-down");
             TexturesByHeading[(int)PlayerHeading.Right] = content.Load<Texture2D>("player-right");
             TexturesByHeading[(int)PlayerHeading.Left] = content.Load<Texture2D>("player-left");
-            ScalingFactor = BlockDefenderGame.FieldSize / (float)Texture.Width;
-            TextureCenter = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            var texture = TexturesByHeading.First();
+            ScalingFactor = BlockDefenderGame.FieldSize / (float)texture.Width;
+            TextureCenter = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
         public void Draw(SpriteBatch spriteBatch)

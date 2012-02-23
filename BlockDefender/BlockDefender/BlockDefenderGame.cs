@@ -54,7 +54,7 @@ namespace BlockDefender
             HUDSprites = new SpriteBatch(GraphicsDevice);
             SystemFont = Content.Load<SpriteFont>("SystemFont");
             Playground.Load(Content);
-            PlayerOne.Load(Content);
+            Player.LoadAssets(Content);
 
             float desiredFieldSize = (float)graphics.GraphicsDevice.Viewport.Width / (Playground.ColumnCount + 1);
             GameScale = desiredFieldSize / FieldSize;
@@ -69,6 +69,7 @@ namespace BlockDefender
 
         protected override void Update(GameTime gameTime)
         {
+            NetworkClient.Update();
             UpdateInput();
 
             base.Update(gameTime);

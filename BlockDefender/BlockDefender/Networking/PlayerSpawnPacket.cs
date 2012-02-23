@@ -9,18 +9,21 @@ namespace BlockDefender.Networking
 {
     class PlayerSpawnPacket : NetworkPacket
     {
+        public int Id { get; private set; }
         public Vector2 Position { get; private set; }
 
         public PlayerSpawnPacket()
         { }
 
-        public PlayerSpawnPacket(Vector2 position)
+        public PlayerSpawnPacket(int id, Vector2 position)
         {
+            Id = id;
             Position = position;
         }
 
         internal override void ReadFrom(BinaryReader reader)
         {
+            Id = reader.ReadInt32();
             float x = reader.ReadSingle();
             float y = reader.ReadSingle();
             Position = new Vector2(x, y);
@@ -28,6 +31,7 @@ namespace BlockDefender.Networking
 
         internal override void WriteTo(BinaryWriter writer)
         {
+            writer.Write(Id);
             writer.Write(Position.X);
             writer.Write(Position.Y);
         }

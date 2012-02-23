@@ -105,10 +105,10 @@ namespace BlockDefender.Networking
                 NetworkPacketSerializer.WritePacket(new WelcomePacket(Map), source);
                 foreach (var player in Playground.Players)
                 {
-                    NetworkPacketSerializer.WritePacket(new PlayerSpawnPacket(player.Position), source);
+                    NetworkPacketSerializer.WritePacket(new PlayerSpawnPacket(player.Id, player.Position), source);
                 }
                 var newPlayer = Playground.SpawnNextPlayer();
-                BoradcastPacket(new PlayerSpawnPacket(newPlayer.Position));
+                BoradcastPacket(new PlayerSpawnPacket(newPlayer.Id, newPlayer.Position));
                 NetworkPacketSerializer.WritePacket(new AssignPlayerPacket(newPlayer.Id), source);
             }
         }
