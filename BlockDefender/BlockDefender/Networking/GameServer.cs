@@ -11,13 +11,16 @@ namespace BlockDefender.Networking
     class GameServer
     {
         private Thread ServerThread;
-        private Playground Map;
+        private Map Map;
+        private Playground Playground;
         private Socket ListenSocket;
         private List<Socket> ActiveSockets;
 
-        public GameServer(Playground map)
+        public GameServer(Map map)
         {
             Map = map;
+            Playground = new Playground(Map);
+
             ActiveSockets = new List<Socket>();
             ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
             ListenSocket.Bind(new IPEndPoint(IPAddress.Any, AppSettings.Default.ListenPort));
@@ -78,7 +81,7 @@ namespace BlockDefender.Networking
                 try
                 {
                     NetworkPacket packet = NetworkPacketSerializer.ReadPacket(stream);
-                    ProcessPacket(packet);
+                    ProcessPacket(packet, stream);
                 }
                 catch (UnsupportedPacketException)
                 {
@@ -87,9 +90,12 @@ namespace BlockDefender.Networking
             }
         }
 
-        private void ProcessPacket(NetworkPacket packet)
+        private void ProcessPacket(NetworkPacket packet, NetworkStream source)
         {
-            throw new NotImplementedException();
+            if (packet is JoinPacket)
+            {
+                NetworkPacketSerializer.WritePacket(new WelcomePacket(Map), source);
+            }
         }
 
         private void DropConnection(Socket socket)
