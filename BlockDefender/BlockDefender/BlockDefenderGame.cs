@@ -28,6 +28,7 @@ namespace BlockDefender
         private SpriteFont SystemFont;
 
         private Playground Playground;
+        private NetworkClient NetworkClient;
         private Player PlayerOne;
 
         public BlockDefenderGame()
@@ -40,8 +41,8 @@ namespace BlockDefender
         {
             GameServer server = new GameServer(new Map(16, 9));
             server.Start();
-            var client = new NetworkClient();
-            Playground = client.EstablishConnection();
+            NetworkClient = new NetworkClient();
+            Playground = NetworkClient.EstablishConnection();
             PlayerOne = Playground.SpawnNextPlayer();
 
             base.Initialize();
@@ -63,7 +64,7 @@ namespace BlockDefender
 
         protected override void UnloadContent()
         {
-            
+            NetworkClient.Dispose();
         }
 
         protected override void Update(GameTime gameTime)
