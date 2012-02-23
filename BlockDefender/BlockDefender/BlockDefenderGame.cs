@@ -37,7 +37,7 @@ namespace BlockDefender
 
         protected override void Initialize()
         {
-            Playground = new Playground(16, 9);
+            Playground = new Playground(new Map(16, 9));
             PlayerOne = Playground.SpawnNextPlayer();
 
             base.Initialize();

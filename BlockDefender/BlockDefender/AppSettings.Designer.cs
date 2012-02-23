@@ -82,5 +82,17 @@ namespace BlockDefender {
                 this["Exit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1337")]
+        public int ListenPort {
+            get {
+                return ((int)(this["ListenPort"]));
+            }
+            set {
+                this["ListenPort"] = value;
+            }
+        }
     }
 }

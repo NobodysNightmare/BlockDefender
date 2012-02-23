@@ -11,37 +11,32 @@ namespace BlockDefender
 {
     class Playground
     {
-        public int ColumnCount { get; private set; }
-        public int RowCount { get; private set; }
+        private Map Map;
 
-        private Field[,] Fields;
-
-        public Playground(int columnCount, int rowCount)
+        public int ColumnCount
         {
-            ColumnCount = columnCount;
-            RowCount = rowCount;
-
-            Fields = new Field[ColumnCount, RowCount];
-            PopulateFields();
+            get
+            {
+                return Map.ColumnCount;
+            }
         }
 
-        private void PopulateFields()
+        public int RowCount
         {
-            for (int column = 0; column < ColumnCount; column++)
+            get
             {
-                for (int row = 0; row < RowCount; row++)
-                {
-                    if((column % 4 != 2) || (row % 3 != 2))
-                        Fields[column, row] = new PlainField(column, row);
-                    else
-                        Fields[column, row] = new SolidField(column, row);
-                }
+                return Map.RowCount;
             }
+        }
+
+        public Playground(Map map)
+        {
+            Map = map;
         }
 
         public void Load(ContentManager Content)
         {
-            foreach (var field in Fields)
+            foreach (var field in Map.Fields)
             {
                 field.Load(Content);
             }
@@ -49,7 +44,7 @@ namespace BlockDefender
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var field in Fields)
+            foreach (var field in Map.Fields)
             {
                 field.Draw(spriteBatch);
             }
@@ -57,15 +52,12 @@ namespace BlockDefender
 
         public Player SpawnNextPlayer()
         {
-            return new Player(this, Fields[1, 1].Center);
+            return new Player(this, Map.Fields[1, 1].Center);
         }
 
         public Field FieldAt(int column, int row)
         {
-            if (column < 0 || row < 0 || column >= ColumnCount || row >= RowCount)
-                return SolidField.BorderField;
-
-            return Fields[column, row];
+            return Map.FieldAt(column, row);
         }
     }
 }
