@@ -120,7 +120,7 @@
     <Compile Include="Networking\UnsupportedDataException.cs" />
     <Compile Include="Networking\WelcomePacket.cs" />
     <Compile Include="Networking\GameServer.cs" />
-    <Compile Include="Networking\JoinPacket.cs" />
+    <Compile Include="Networking\JoinRequestPacket.cs" />
     <Compile Include="Networking\NetworkPacket.cs" />
     <Compile Include="Networking\NetworkPacketSerializer.cs" />
     <Compile Include="Networking\UnsupportedPacketException.cs" />
