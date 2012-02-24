@@ -98,7 +98,8 @@ namespace BlockDefender
             {
                 NetworkClient.MovePlayer(PlayerHeading.Right);
             }
-            else if (keyState.IsKeyDown(AppSettings.Default.Interact))
+
+            if (keyState.IsKeyDown(AppSettings.Default.Interact))
             {
                 NetworkClient.PlayerInteract();
             }
