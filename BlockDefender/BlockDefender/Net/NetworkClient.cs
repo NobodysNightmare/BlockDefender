@@ -39,7 +39,7 @@ namespace BlockDefender.Net
                 return;
 
             AssignedPlayer.Move(direction);
-            //TODO: send position-update to server
+            NetworkPacketSerializer.WritePacket(new PlayerUpdatePacket(AssignedPlayer), Stream);
             //TODO: move/interact might be pulled into own interface implemented by Player and some kind of network-decorator for Player
         }
 
