@@ -6,8 +6,9 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
+using BlockDefender.Net.Data;
 
-namespace BlockDefender.Networking
+namespace BlockDefender.Net
 {
     class GameServer
     {

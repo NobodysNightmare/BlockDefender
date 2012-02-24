@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Text;
 using BlockDefender.Fields;
-using BlockDefender.Networking;
+using BlockDefender.Net;
 
 namespace BlockDefender
 {

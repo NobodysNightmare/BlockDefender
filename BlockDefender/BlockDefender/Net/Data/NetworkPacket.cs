@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace BlockDefender.Networking
+namespace BlockDefender.Net.Data
 {
     abstract class NetworkPacket
     {

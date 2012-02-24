@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using BlockDefender.Net.Data;
 
-namespace BlockDefender.Networking
+namespace BlockDefender.Net
 {
     class NetworkPacketSerializer
     {

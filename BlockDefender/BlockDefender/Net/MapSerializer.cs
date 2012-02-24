@@ -5,7 +5,7 @@ using System.Text;
 using BlockDefender.Fields;
 using System.IO;
 
-namespace BlockDefender.Networking
+namespace BlockDefender.Net
 {
     enum FieldType : byte
     {

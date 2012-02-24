@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
 
-namespace BlockDefender.Networking
+namespace BlockDefender.Net.Data
 {
     class PlayerSpawnPacket : NetworkPacket
     {
