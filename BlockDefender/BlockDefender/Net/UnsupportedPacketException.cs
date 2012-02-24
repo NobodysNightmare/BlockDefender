@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BlockDefender.Net
 {
-    class UnsupportedPacketException : Exception
+    class UnsupportedPacketException : UnsupportedDataException
     {
         public UnsupportedPacketException()
-            : base("This kind of network packet is not supported by this server.")
+            : base("The received packet could not be parsed")
         { }
     }
 }

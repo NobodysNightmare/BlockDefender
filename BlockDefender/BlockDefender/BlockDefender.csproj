@@ -112,16 +112,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Fields\DestructibleField.cs" />
-    <Compile Include="Fields\Field.cs" />
-    <Compile Include="Fields\PlainField.cs" />
-    <Compile Include="Map.cs" />
+    <Compile Include="Terrain\DestructibleField.cs" />
+    <Compile Include="Terrain\Field.cs" />
+    <Compile Include="Terrain\PlainField.cs" />
+    <Compile Include="Terrain\Map.cs" />
     <Compile Include="Net\Data\AssignPlayerPacket.cs" />
     <Compile Include="Net\Data\PlayerUpdatePacket.cs" />
-    <Compile Include="Net\MapSerializer.cs" />
+    <Compile Include="Terrain\MapSerializer.cs" />
     <Compile Include="Net\NetworkClient.cs" />
     <Compile Include="Net\Data\PlayerSpawnPacket.cs" />
-    <Compile Include="Net\UnsupportedDataException.cs" />
+    <Compile Include="UnsupportedDataException.cs" />
     <Compile Include="Net\Data\WelcomePacket.cs" />
     <Compile Include="Net\GameServer.cs" />
     <Compile Include="Net\Data\JoinRequestPacket.cs" />
@@ -133,7 +133,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="BlockDefenderGame.cs" />
-    <Compile Include="Fields\SolidField.cs" />
+    <Compile Include="Terrain\SolidField.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

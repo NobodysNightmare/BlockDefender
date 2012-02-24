@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using BlockDefender.Fields;
+using BlockDefender.Terrain;
 using Microsoft.Xna.Framework;
 using System.Collections.ObjectModel;
 

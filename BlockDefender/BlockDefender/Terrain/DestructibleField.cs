@@ -5,27 +5,27 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace BlockDefender.Fields
+namespace BlockDefender.Terrain
 {
-    class SolidField : Field
+    class DestructibleField : Field
     {
-        public static readonly SolidField BorderField = new SolidField(-1, -1);
-
-        public SolidField(int column, int row)
+        public DestructibleField(int column, int row)
             : base(column, row)
         {
+            IsDestructible = true;
             IsAccessible = false;
         }
 
-        public SolidField(Field field)
+        public DestructibleField(Field field)
             : base(field)
         {
+            IsDestructible = true;
             IsAccessible = false;
         }
 
         protected override Texture2D LoadTexture(ContentManager content)
         {
-            return content.Load<Texture2D>("field1");
+            return content.Load<Texture2D>("field2");
         }
     }
 }

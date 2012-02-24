@@ -8,6 +8,7 @@ using System.Net;
 using System.IO;
 using BlockDefender.Net.Data;
 using Microsoft.Xna.Framework;
+using BlockDefender.Terrain;
 
 namespace BlockDefender.Net
 {

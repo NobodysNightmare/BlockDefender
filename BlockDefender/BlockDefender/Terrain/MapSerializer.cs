@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BlockDefender.Fields;
+using BlockDefender.Terrain;
 using System.IO;
 
-namespace BlockDefender.Net
+namespace BlockDefender.Terrain
 {
     enum FieldType : byte
     {
@@ -48,7 +48,7 @@ namespace BlockDefender.Net
                 case FieldType.Destructible:
                     return new DestructibleField(column, row);
                 default:
-                    throw new UnsupportedDataException();
+                    throw new UnsupportedDataException(string.Format("Field-type is unknown: {0}", type));
             }
         }
     }

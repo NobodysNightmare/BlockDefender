@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace BlockDefender.Fields
+namespace BlockDefender.Terrain
 {
     class PlainField : Field
     {

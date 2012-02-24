@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BlockDefender.Fields;
 
-namespace BlockDefender
+namespace BlockDefender.Terrain
 {
     class Map
     {
