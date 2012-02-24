@@ -112,6 +112,8 @@ namespace BlockDefender.Net
             }
             else if (packet is PlayerUpdatePacket)
             {
+                var updatePacket = packet as PlayerUpdatePacket;
+                Playground.Players.Single(p => p.Id == updatePacket.Id).Update(updatePacket.Position, updatePacket.Heading);
                 BroadcastPacket(packet);
             }
         }
