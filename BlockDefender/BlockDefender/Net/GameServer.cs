@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using BlockDefender.Net.Data;
+using Microsoft.Xna.Framework;
 
 namespace BlockDefender.Net
 {
@@ -108,6 +109,10 @@ namespace BlockDefender.Net
                 var newPlayer = Playground.SpawnNextPlayer();
                 BoradcastPacket(new PlayerSpawnPacket(newPlayer));
                 NetworkPacketSerializer.WritePacket(new AssignPlayerPacket(newPlayer.Id), source);
+            }
+            else if (packet is PlayerUpdatePacket)
+            {
+                BoradcastPacket(packet);
             }
         }
 

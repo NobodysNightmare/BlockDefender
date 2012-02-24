@@ -99,5 +99,11 @@ namespace BlockDefender
                 Playground.replaceFieldAt(Field.CalculateColumn(nextPosition), Field.CalculateRow(nextPosition), new PlainField(nextField));
             }
         }
+
+        public void Update(Vector2 newPosition, PlayerHeading newHeading)
+        {
+            Position = newPosition;
+            Heading = newHeading;
+        }
     }
 }

@@ -64,6 +64,8 @@ namespace BlockDefender.Net
                 ProcessPacket((PlayerSpawnPacket)packet);
             else if(packet is AssignPlayerPacket)
                 ProcessPacket((AssignPlayerPacket)packet);
+            else if (packet is PlayerUpdatePacket)
+                ProcessPacket((PlayerUpdatePacket)packet);
         }
 
         private void ProcessPacket(PlayerSpawnPacket spawnPacket)
@@ -75,6 +77,11 @@ namespace BlockDefender.Net
         private void ProcessPacket(AssignPlayerPacket assignPacket)
         {
             AssignedPlayer = Playground.Players.Single(player => player.Id == assignPacket.PlayerId);
+        }
+
+        private void ProcessPacket(PlayerUpdatePacket updatePacket)
+        {
+            Playground.Players.Single(player => player.Id == updatePacket.Id).Update(updatePacket.Position, updatePacket.Heading);
         }
 
         public void Dispose()
