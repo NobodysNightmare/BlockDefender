@@ -117,6 +117,7 @@
     <Compile Include="Fields\PlainField.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Net\Data\AssignPlayerPacket.cs" />
+    <Compile Include="Net\Data\PlayerUpdatePacket.cs" />
     <Compile Include="Net\MapSerializer.cs" />
     <Compile Include="Net\NetworkClient.cs" />
     <Compile Include="Net\Data\PlayerSpawnPacket.cs" />
