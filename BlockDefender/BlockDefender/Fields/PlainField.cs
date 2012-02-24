@@ -19,7 +19,7 @@ namespace BlockDefender.Fields
 
         protected override Texture2D LoadTexture(ContentManager content)
         {
-            return content.Load<Texture2D>("field3");
+            return content.Load<Texture2D>("plainfield");
         }
     }
 }
