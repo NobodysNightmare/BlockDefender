@@ -107,16 +107,16 @@ namespace BlockDefender.Net
                     NetworkPacketSerializer.WritePacket(new PlayerSpawnPacket(player), source);
                 }
                 var newPlayer = Playground.SpawnNextPlayer();
-                BoradcastPacket(new PlayerSpawnPacket(newPlayer));
+                BroadcastPacket(new PlayerSpawnPacket(newPlayer));
                 NetworkPacketSerializer.WritePacket(new AssignPlayerPacket(newPlayer.Id), source);
             }
             else if (packet is PlayerUpdatePacket)
             {
-                BoradcastPacket(packet);
+                BroadcastPacket(packet);
             }
         }
 
-        private void BoradcastPacket(NetworkPacket packet)
+        private void BroadcastPacket(NetworkPacket packet)
         {
             foreach (var socket in ActiveSockets.Where(socket => socket != ListenSocket))
             {
