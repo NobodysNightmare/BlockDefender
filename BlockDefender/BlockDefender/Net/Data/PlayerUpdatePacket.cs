@@ -9,13 +9,23 @@ namespace BlockDefender.Net.Data
 {
     class PlayerUpdatePacket : NetworkPacket
     {
-        public int PlayerId { get; private set; }
+        public int Id { get; private set; }
         public Vector2 Position { get; private set; }
         public PlayerHeading Heading { get; private set; }
 
+        public PlayerUpdatePacket()
+        { }
+
+        public PlayerUpdatePacket(Player player)
+        {
+            Id = player.Id;
+            Position = player.Position;
+            Heading = player.Heading;
+        }
+
         internal override void ReadFrom(BinaryReader reader)
         {
-            PlayerId = reader.ReadInt32();
+            Id = reader.ReadInt32();
             float x = reader.ReadSingle();
             float y = reader.ReadSingle();
             Position = new Vector2(x, y);
@@ -24,7 +34,7 @@ namespace BlockDefender.Net.Data
 
         internal override void WriteTo(BinaryWriter writer)
         {
-            writer.Write(PlayerId);
+            writer.Write(Id);
             writer.Write(Position.X);
             writer.Write(Position.Y);
             writer.Write((byte)Heading);

@@ -15,10 +15,10 @@ namespace BlockDefender.Net.Data
         public PlayerSpawnPacket()
         { }
 
-        public PlayerSpawnPacket(int id, Vector2 position)
+        public PlayerSpawnPacket(Player player)
         {
-            Id = id;
-            Position = position;
+            Id = player.Id;
+            Position = player.Position;
         }
 
         internal override void ReadFrom(BinaryReader reader)
