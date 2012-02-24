@@ -81,25 +81,22 @@ namespace BlockDefender.Net
 
         private void ReceivePacket(Socket socket)
         {
-            using (var stream = new NetworkStream(socket))
+            try
             {
-                try
-                {
-                    NetworkPacket packet = NetworkPacketSerializer.ReadPacket(stream);
-                    ProcessPacket(packet, stream);
-                }
-                catch (IOException)
-                {
-                    DropConnection(socket);
-                }
-                catch (UnsupportedPacketException)
-                {
-                    DropConnection(socket);
-                }
+                NetworkPacket packet = NetworkPacketSerializer.ReadPacket(socket);
+                ProcessPacket(packet, socket);
+            }
+            catch (IOException)
+            {
+                DropConnection(socket);
+            }
+            catch (UnsupportedPacketException)
+            {
+                DropConnection(socket);
             }
         }
 
-        private void ProcessPacket(NetworkPacket packet, NetworkStream source)
+        private void ProcessPacket(NetworkPacket packet, Socket source)
         {
             if (packet is JoinRequestPacket)
             {
@@ -118,10 +115,7 @@ namespace BlockDefender.Net
         {
             foreach (var socket in ActiveSockets.Where(socket => socket != ListenSocket))
             {
-                using (var stream = new NetworkStream(socket))
-                {
-                    NetworkPacketSerializer.WritePacket(packet, stream);
-                }
+                NetworkPacketSerializer.WritePacket(packet, socket);
             }
         }
 

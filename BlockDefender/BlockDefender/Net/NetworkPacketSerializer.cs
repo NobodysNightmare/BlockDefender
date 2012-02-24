@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using BlockDefender.Net.Data;
+using System.Net.Sockets;
 
 namespace BlockDefender.Net
 {
@@ -14,12 +15,15 @@ namespace BlockDefender.Net
             None, JoinRequest, Welcome, PlayerSpawn, AssignPlayer, PlayerUpdate
         }
 
-        internal static NetworkPacket ReadPacket(Stream stream)
+        internal static NetworkPacket ReadPacket(Socket socket)
         {
-            var reader = new BinaryReader(stream); //do not dispose, stream has to stay open
-            NetworkPacket packet = InstanciatePacket(reader);
-            packet.ReadFrom(reader);
-            return packet;
+            using (var stream = new NetworkStream(socket))
+            using (var reader = new BinaryReader(stream))
+            {
+                NetworkPacket packet = InstanciatePacket(reader);
+                packet.ReadFrom(reader);
+                return packet;
+            }
         }
 
         private static NetworkPacket InstanciatePacket(BinaryReader reader)
@@ -42,11 +46,14 @@ namespace BlockDefender.Net
             }
         }
 
-        internal static void WritePacket(NetworkPacket packet, Stream stream)
+        internal static void WritePacket(NetworkPacket packet, Socket socket)
         {
-            var writer = new BinaryWriter(stream);  //do not dispose, stream has to stay open
-            SendPacketIdentifier(writer, packet);
-            packet.WriteTo(writer);
+            using (var stream = new NetworkStream(socket))
+            using (var writer = new BinaryWriter(stream))
+            {
+                SendPacketIdentifier(writer, packet);
+                packet.WriteTo(writer);
+            }
         }
 
         private static void SendPacketIdentifier(BinaryWriter writer, NetworkPacket packet)

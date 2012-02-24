@@ -9,21 +9,20 @@ namespace BlockDefender.Net
 {
     class NetworkClient : IDisposable
     {
-        private NetworkStream Stream;
+        private Socket Socket;
         private Playground Playground;
         private Player AssignedPlayer;
 
         public NetworkClient()
         {
-            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            socket.Connect(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
-            Stream = new NetworkStream(socket, true);
+            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            Socket.Connect(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
         }
 
         public Playground EstablishConnection()
         {
-            NetworkPacketSerializer.WritePacket(new JoinRequestPacket(), Stream);
-            var packet = NetworkPacketSerializer.ReadPacket(Stream);
+            NetworkPacketSerializer.WritePacket(new JoinRequestPacket(), Socket);
+            var packet = NetworkPacketSerializer.ReadPacket(Socket);
             var welcome = packet as WelcomePacket;
             if (packet != null)
             {
@@ -39,7 +38,7 @@ namespace BlockDefender.Net
                 return;
 
             AssignedPlayer.Move(direction);
-            NetworkPacketSerializer.WritePacket(new PlayerUpdatePacket(AssignedPlayer), Stream);
+            NetworkPacketSerializer.WritePacket(new PlayerUpdatePacket(AssignedPlayer), Socket);
             //TODO: move/interact might be pulled into own interface implemented by Player and some kind of network-decorator for Player
         }
 
@@ -52,9 +51,9 @@ namespace BlockDefender.Net
 
         public void Update()
         {
-            while (Stream.DataAvailable)
+            while (Socket.Available > 0)
             {
-                NetworkPacket packet = NetworkPacketSerializer.ReadPacket(Stream);
+                NetworkPacket packet = NetworkPacketSerializer.ReadPacket(Socket);
                 ReceiveUpdate(packet);
             }
         }
@@ -80,7 +79,7 @@ namespace BlockDefender.Net
 
         public void Dispose()
         {
-            Stream.Dispose();
+            Socket.Dispose();
         }
     }
 }
