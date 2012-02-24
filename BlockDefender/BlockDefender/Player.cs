@@ -9,7 +9,7 @@ using BlockDefender.Fields;
 
 namespace BlockDefender
 {
-    enum PlayerHeading
+    enum PlayerHeading : byte
     {
         Down = 0,
         Right = 1,

@@ -11,7 +11,7 @@ namespace BlockDefender.Net
     {
         private enum PacketType : byte
         {
-            None, JoinRequest, Welcome, PlayerSpawn, AssignPlayer
+            None, JoinRequest, Welcome, PlayerSpawn, AssignPlayer, PlayerUpdate
         }
 
         internal static NetworkPacket ReadPacket(Stream stream)
@@ -35,6 +35,8 @@ namespace BlockDefender.Net
                     return new PlayerSpawnPacket();
                 case PacketType.AssignPlayer:
                     return new AssignPlayerPacket();
+                case PacketType.PlayerUpdate:
+                    return new PlayerUpdatePacket();
                 default:
                     throw new UnsupportedPacketException();
             }
@@ -57,6 +59,8 @@ namespace BlockDefender.Net
                 writer.Write((byte)PacketType.PlayerSpawn);
             else if (packet is AssignPlayerPacket)
                 writer.Write((byte)PacketType.AssignPlayer);
+            else if (packet is PlayerUpdatePacket)
+                writer.Write((byte)PacketType.PlayerUpdate);
         }
     }
 }
