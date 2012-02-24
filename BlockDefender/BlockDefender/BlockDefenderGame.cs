@@ -38,8 +38,11 @@ namespace BlockDefender
 
         protected override void Initialize()
         {
-            GameServer server = new GameServer(new Map(16, 9), AppSettings.Default.ListenPort);
-            server.Start();
+            if (AppSettings.Default.EnableServer)
+            {
+                GameServer server = new GameServer(new Map(16, 9), AppSettings.Default.ListenPort);
+                server.Start();
+            }
             NetworkClient = new NetworkClient();
             Playground = NetworkClient.EstablishConnection();
 

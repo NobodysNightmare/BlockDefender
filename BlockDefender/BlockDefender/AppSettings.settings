@@ -29,5 +29,8 @@
     <Setting Name="ConnectPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1337</Value>
     </Setting>
+    <Setting Name="EnableServer" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
