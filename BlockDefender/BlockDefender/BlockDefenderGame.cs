@@ -54,8 +54,10 @@ namespace BlockDefender
             GameSprites = new SpriteBatch(GraphicsDevice);
             HUDSprites = new SpriteBatch(GraphicsDevice);
             SystemFont = Content.Load<SpriteFont>("SystemFont");
-            Playground.Load(Content);
             Player.LoadAssets(Content);
+            PlainField.LoadAssets(Content);
+            SolidField.LoadAssets(Content);
+            DestructibleField.LoadAssets(Content);
 
             float desiredFieldSize = (float)graphics.GraphicsDevice.Viewport.Width / (Playground.ColumnCount + 1);
             GameScale = desiredFieldSize / FieldSize;
@@ -102,14 +104,6 @@ namespace BlockDefender
             if (keyState.IsKeyDown(AppSettings.Default.Interact))
             {
                 NetworkClient.PlayerInteract();
-            }
-
-            for (int i = 0; i < Playground.ColumnCount; i++)
-            {
-                for (int j = 0; j < Playground.RowCount; j++)
-                {
-                    Playground.FieldAt(i, j).Load(Content);
-                }
             }
         }
 

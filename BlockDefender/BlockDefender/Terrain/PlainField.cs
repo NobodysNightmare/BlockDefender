@@ -9,6 +9,18 @@ namespace BlockDefender.Terrain
 {
     class PlainField : Field
     {
+        private static float TextureScale;
+        protected override float ScalingFactor
+        {
+            get { return TextureScale; }
+        }
+
+        private static Texture2D Texture;
+        protected override Texture2D FieldTexture
+        {
+            get { return Texture; }
+        }
+
         public PlainField(int column, int row)
             : base(column, row)
         { }
@@ -17,9 +29,10 @@ namespace BlockDefender.Terrain
             : base(field)
         { }
 
-        protected override Texture2D LoadTexture(ContentManager content)
+        public static void LoadAssets(ContentManager content)
         {
-            return content.Load<Texture2D>("plainfield");
+            Texture = content.Load<Texture2D>("plainfield");
+            TextureScale = Field.ComputeScalingFactor(Texture);
         }
     }
 }

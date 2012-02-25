@@ -9,6 +9,18 @@ namespace BlockDefender.Terrain
 {
     class DestructibleField : Field
     {
+        private static float TextureScale;
+        protected override float ScalingFactor
+        {
+            get { return TextureScale; }
+        }
+
+        private static Texture2D Texture;
+        protected override Texture2D FieldTexture
+        {
+            get { return Texture; }
+        }
+
         public DestructibleField(int column, int row)
             : base(column, row)
         {
@@ -23,9 +35,10 @@ namespace BlockDefender.Terrain
             IsAccessible = false;
         }
 
-        protected override Texture2D LoadTexture(ContentManager content)
+        public static void LoadAssets(ContentManager content)
         {
-            return content.Load<Texture2D>("field2");
+            Texture = content.Load<Texture2D>("field2");
+            TextureScale = Field.ComputeScalingFactor(Texture);
         }
     }
 }

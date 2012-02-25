@@ -46,14 +46,6 @@ namespace BlockDefender
             PlayerList = new List<Player>();
         }
 
-        public void Load(ContentManager Content)
-        {
-            foreach (var field in Map.Fields)
-            {
-                field.Load(Content);
-            }
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (var field in Map.Fields)

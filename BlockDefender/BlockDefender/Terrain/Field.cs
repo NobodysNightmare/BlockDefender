@@ -11,12 +11,11 @@ namespace BlockDefender.Terrain
     abstract class Field
     {
         private static readonly Vector2 CenterOffset = new Vector2(BlockDefenderGame.FieldSize / 2, BlockDefenderGame.FieldSize / 2);
-        private Texture2D Texture;
+        protected abstract float ScalingFactor { get; }
+        protected abstract Texture2D FieldTexture { get; }
 
         //top-left corner in scene-coordinates
         private Vector2 Position;
-
-        private float ScalingFactor;
 
         public Vector2 Center
         {
@@ -32,7 +31,6 @@ namespace BlockDefender.Terrain
         public Field(int column, int row)
         {
             Position = new Vector2(column * BlockDefenderGame.FieldSize, row * BlockDefenderGame.FieldSize);
-            ScalingFactor = 1f;
             IsAccessible = true;
             IsDestructible = false;
         }
@@ -44,17 +42,9 @@ namespace BlockDefender.Terrain
             IsDestructible = false;
         }
 
-        public void Load(ContentManager content)
-        {
-            Texture = LoadTexture(content);
-            ScalingFactor = BlockDefenderGame.FieldSize / (float)Texture.Width;
-        }
-
-        protected abstract Texture2D LoadTexture(ContentManager content);
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color.White, 0, Vector2.Zero, ScalingFactor, SpriteEffects.None, 1f);
+            spriteBatch.Draw(FieldTexture, Position, null, Color.White, 0, Vector2.Zero, ScalingFactor, SpriteEffects.None, 1f);
         }
 
         public static int CalculateColumn(Vector2 position)
@@ -65,6 +55,11 @@ namespace BlockDefender.Terrain
         public static int CalculateRow(Vector2 position)
         {
             return (int)Math.Floor(position.Y / BlockDefenderGame.FieldSize);
+        }
+
+        protected static float ComputeScalingFactor(Texture2D texture)
+        {
+            return BlockDefenderGame.FieldSize / (float)texture.Width;
         }
     }
 }
