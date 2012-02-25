@@ -30,10 +30,10 @@ namespace BlockDefender.Terrain
 
         private void GenerateBaseTerrain()
         {
-            ReplaceAllFields(MapBaseTerrain);
+            ApplyToAllFields(MapBaseTerrain);
         }
 
-        private void ReplaceAllFields(SimpleFieldMapper mappingFunction)
+        private void ApplyToAllFields(SimpleFieldMapper mappingFunction)
         {
             for (int column = 0; column < Map.ColumnCount; column++)
                 for (int row = 0; row < Map.RowCount; row++)
