@@ -40,7 +40,7 @@ namespace BlockDefender
         {
             if (AppSettings.Default.EnableServer)
             {
-                GameServer server = new GameServer(new MapGenerator().Generate(16, 9), AppSettings.Default.ListenPort);
+                GameServer server = new GameServer(new MapGenerator().Generate(30, 16), AppSettings.Default.ListenPort);
                 server.Start();
             }
             NetworkClient = new NetworkClient();
