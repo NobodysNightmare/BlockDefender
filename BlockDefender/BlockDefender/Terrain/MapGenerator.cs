@@ -42,9 +42,10 @@ namespace BlockDefender.Terrain
 
         private Field MapBaseTerrain(int column, int row, Field currentValue)
         {
-            float distanceToMid = Math.Abs(column - ((Map.ColumnCount-1) / 2f));
-            float relativeMidDistance = 2 * distanceToMid / Map.ColumnCount;
-            if (Random.NextDouble() < (0.5 + Math.Cos(relativeMidDistance * Math.PI) / 2))
+            double distanceToMid = Math.Abs(column - ((Map.ColumnCount - 1) / 2f));
+            double relativeMidDistance = 2 * distanceToMid / Map.ColumnCount;
+            double wallProbability = (0.5 + Math.Cos(relativeMidDistance * Math.PI) / 2);
+            if (Random.NextDouble() < wallProbability)
                 return new DestructibleField(column, row);
 
             return currentValue;
