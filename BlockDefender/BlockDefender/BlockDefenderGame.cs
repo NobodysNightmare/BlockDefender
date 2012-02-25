@@ -115,7 +115,7 @@ namespace BlockDefender
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             Matrix gameTransform = Matrix.CreateScale(GameScale);
             gameTransform.Translation = GameOffset;
             GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
