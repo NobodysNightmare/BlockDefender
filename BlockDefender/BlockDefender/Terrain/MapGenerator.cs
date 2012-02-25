@@ -24,13 +24,19 @@ namespace BlockDefender.Terrain
         public Map Generate(int mapWidth, int mapHeight)
         {
             Map = new Map(mapWidth, mapHeight);
-            GenerateBaseTerrain();
+            GenerateWalls();
+            GenerateRareFields();
             return Map;
         }
 
-        private void GenerateBaseTerrain()
+        private void GenerateWalls()
         {
-            ApplyToAllFields(MapBaseTerrain);
+            ApplyToAllFields(MapWalls);
+        }
+
+        private void GenerateRareFields()
+        {
+            ApplyToAllFields(MapWallsToRare);
         }
 
         private void ApplyToAllFields(SimpleFieldMapper mappingFunction)
@@ -40,13 +46,25 @@ namespace BlockDefender.Terrain
                     Map.Fields[column, row] = mappingFunction(column, row, Map.Fields[column, row]);
         }
 
-        private Field MapBaseTerrain(int column, int row, Field currentValue)
+        private Field MapWalls(int column, int row, Field currentValue)
         {
             double distanceToMid = Math.Abs(column - ((Map.ColumnCount - 1) / 2f));
             double relativeMidDistance = 2 * distanceToMid / Map.ColumnCount;
             double wallProbability = (0.5 + Math.Cos(relativeMidDistance * Math.PI) / 2);
             if (Random.NextDouble() < wallProbability)
                 return new DestructibleField(column, row);
+
+            return currentValue;
+        }
+
+        private Field MapWallsToRare(int column, int row, Field currentValue)
+        {
+            if (currentValue.IsAccessible)
+                return currentValue;
+
+            double probabilityOfSpecialThing = 0.06;
+            if (Random.NextDouble() < probabilityOfSpecialThing)
+                return new SolidField(column, row); //just for demo - should be something rare / useful / cool instead
 
             return currentValue;
         }
