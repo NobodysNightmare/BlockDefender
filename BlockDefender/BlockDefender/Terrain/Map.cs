@@ -27,10 +27,7 @@ namespace BlockDefender.Terrain
             {
                 for (int row = 0; row < RowCount; row++)
                 {
-                    if((column % 4 != 2) || (row % 3 != 2))
-                        Fields[column, row] = new PlainField(column, row);
-                    else
-                        Fields[column, row] = new DestructibleField(column, row);
+                    Fields[column, row] = new PlainField(column, row);
                 }
             }
         }

@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Terrain\DestructibleField.cs" />
     <Compile Include="Terrain\Field.cs" />
+    <Compile Include="Terrain\MapGenerator.cs" />
     <Compile Include="Terrain\PlainField.cs" />
     <Compile Include="Terrain\Map.cs" />
     <Compile Include="Net\Data\AssignPlayerPacket.cs" />
