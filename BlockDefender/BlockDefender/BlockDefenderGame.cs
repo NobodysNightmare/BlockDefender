@@ -21,7 +21,7 @@ namespace BlockDefender
         private float GameScale;
         private Vector3 GameOffset;
 
-        private GraphicsDeviceManager graphics;
+        private GraphicsDeviceManager Graphics;
         private SpriteBatch GameSprites;
         private SpriteBatch HUDSprites;
 
@@ -32,7 +32,7 @@ namespace BlockDefender
 
         public BlockDefenderGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -43,10 +43,21 @@ namespace BlockDefender
                 GameServer server = new GameServer(new MapGenerator().Generate(30, 16), AppSettings.Default.ListenPort);
                 server.Start();
             }
+            ApplyGraphicsSettings();
             NetworkClient = new NetworkClient();
             Playground = NetworkClient.EstablishConnection();
 
             base.Initialize();
+        }
+
+        private void ApplyGraphicsSettings()
+        {
+            Graphics.PreferredBackBufferWidth = AppSettings.Default.ScreenWidth;
+            Graphics.PreferredBackBufferHeight = AppSettings.Default.ScreenHeight;
+            if (AppSettings.Default.Fullscreen)
+                Graphics.ToggleFullScreen();
+
+            Graphics.ApplyChanges();
         }
 
         protected override void LoadContent()
@@ -59,9 +70,9 @@ namespace BlockDefender
             SolidField.LoadAssets(Content);
             DestructibleField.LoadAssets(Content);
 
-            float desiredFieldSize = (float)graphics.GraphicsDevice.Viewport.Width / (Playground.ColumnCount + 1);
+            float desiredFieldSize = (float)Graphics.GraphicsDevice.Viewport.Width / (Playground.ColumnCount + 1);
             GameScale = desiredFieldSize / FieldSize;
-            float emptyVerticalSpace = graphics.GraphicsDevice.Viewport.Height - (desiredFieldSize * Playground.RowCount);
+            float emptyVerticalSpace = Graphics.GraphicsDevice.Viewport.Height - (desiredFieldSize * Playground.RowCount);
             GameOffset = new Vector3(desiredFieldSize / 2, emptyVerticalSpace / 2, 0);
         }
 
