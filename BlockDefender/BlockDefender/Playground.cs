@@ -69,7 +69,7 @@ namespace BlockDefender
 
         public Player SpawnNextPlayer()
         {
-           return SpawnPlayerAt(Map.Fields[1, 1].Center);
+           return SpawnPlayerAt(Map.Fields[0, Map.RowCount/2].Center);
         }
 
         public Player SpawnPlayerAt(Vector2 position)
