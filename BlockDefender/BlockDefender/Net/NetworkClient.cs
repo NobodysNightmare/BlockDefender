@@ -35,10 +35,10 @@ namespace BlockDefender.Net
 
         public event MapChangedEventHandler MapChanged;
 
-        public NetworkClient()
+        public NetworkClient(string host, int port)
         {
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            Socket.Connect(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
+            Socket.Connect(host, port);
         }
 
         public void EstablishConnection()
