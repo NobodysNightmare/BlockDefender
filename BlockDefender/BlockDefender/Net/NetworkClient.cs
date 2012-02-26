@@ -19,6 +19,11 @@ namespace BlockDefender.Net
         }
     }
 
+    enum NetworkClientState
+    {
+        Disconnected, Initializing, Ready
+    }
+
     class NetworkClient : IDisposable
     {
         private Socket Socket;
@@ -33,10 +38,13 @@ namespace BlockDefender.Net
             }
         }
 
+        public NetworkClientState State { get; private set; }
+
         public event MapChangedEventHandler MapChanged;
 
         public NetworkClient(string host, int port)
         {
+            State = NetworkClientState.Disconnected;
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             Socket.Connect(host, port);
         }
@@ -52,6 +60,7 @@ namespace BlockDefender.Net
             }
             Playground = new Playground(welcome.Map);
             OnMapChanged(welcome.Map);
+            State = NetworkClientState.Ready;
         }
 
         private void OnMapChanged(Map map)
@@ -81,6 +90,9 @@ namespace BlockDefender.Net
 
         public void Update()
         {
+            if (State != NetworkClientState.Ready)
+                return;
+
             while (Socket.Available > 0)
             {
                 NetworkPacket packet = NetworkPacketSerializer.ReadPacket(Socket);
