@@ -43,9 +43,9 @@ namespace BlockDefender
             }
             ApplyGraphicsSettings();
             GameTransform = Matrix.CreateScale(1f);
-            NetworkClient = new NetworkClient(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
+            NetworkClient = new NetworkClient();
             NetworkClient.MapChanged += OnMapChange;
-            NetworkClient.EstablishConnection();
+            NetworkClient.EstablishConnection(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
 
             base.Initialize();
         }

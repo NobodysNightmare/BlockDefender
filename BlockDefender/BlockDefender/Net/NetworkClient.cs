@@ -42,15 +42,15 @@ namespace BlockDefender.Net
 
         public event MapChangedEventHandler MapChanged;
 
-        public NetworkClient(string host, int port)
+        public NetworkClient()
         {
             State = NetworkClientState.Disconnected;
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            Socket.Connect(host, port);
         }
 
-        public void EstablishConnection()
+        public void EstablishConnection(string host, int port)
         {
+            Socket.Connect(host, port);
             NetworkPacketSerializer.WritePacket(new JoinRequestPacket(), Socket);
             var packet = NetworkPacketSerializer.ReadPacket(Socket);
             var welcome = packet as WelcomePacket;
