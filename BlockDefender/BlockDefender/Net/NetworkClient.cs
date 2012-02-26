@@ -5,6 +5,7 @@ using System.Text;
 using System.Net.Sockets;
 using BlockDefender.Net.Data;
 using BlockDefender.Terrain;
+using System.Net;
 
 namespace BlockDefender.Net
 {
@@ -45,12 +46,26 @@ namespace BlockDefender.Net
         public NetworkClient()
         {
             State = NetworkClientState.Disconnected;
-            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            Socket = new Socket(AddressFamily.InterNetwork | AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.IP);
         }
 
         public void EstablishConnection(string host, int port)
         {
-            Socket.Connect(host, port);
+            State = NetworkClientState.Initializing;
+            SocketAsyncEventArgs connectArgs = new SocketAsyncEventArgs();
+            connectArgs.RemoteEndPoint = new IPEndPoint(Dns.GetHostEntry(host).AddressList.First(), port);
+            connectArgs.Completed += OnConnectionEstablished;
+            if(!Socket.ConnectAsync(connectArgs))
+                OnConnectionEstablished(this, connectArgs);
+        }
+
+        void OnConnectionEstablished(object sender, SocketAsyncEventArgs e)
+        {
+            if (e.SocketError != SocketError.Success)
+            {
+                State = NetworkClientState.Disconnected;
+                return;
+            }
             NetworkPacketSerializer.WritePacket(new JoinRequestPacket(), Socket);
             var packet = NetworkPacketSerializer.ReadPacket(Socket);
             var welcome = packet as WelcomePacket;
@@ -59,11 +74,11 @@ namespace BlockDefender.Net
                 throw new Exception("Expected a welcome packet but received something else!");
             }
             Playground = new Playground(welcome.Map);
-            OnMapChanged(welcome.Map);
+            RaiseMapChanged(welcome.Map);
             State = NetworkClientState.Ready;
         }
 
-        private void OnMapChanged(Map map)
+        private void RaiseMapChanged(Map map)
         {
             if (MapChanged != null)
             {
