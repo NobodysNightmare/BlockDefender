@@ -4,14 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using BlockDefender.Net.Data;
+using BlockDefender.Terrain;
 
 namespace BlockDefender.Net
 {
+    delegate void MapChangedEventHandler(object source, MapChangedEventArgs e);
+    class MapChangedEventArgs : EventArgs
+    {
+        public Map Map { get; private set; }
+
+        public MapChangedEventArgs(Map map)
+        {
+            Map = map;
+        }
+    }
+
     class NetworkClient : IDisposable
     {
         private Socket Socket;
         private Playground Playground;
         private Player AssignedPlayer;
+
+        public IDrawableComponent Visual
+        {
+            get
+            {
+                return Playground;
+            }
+        }
+
+        public event MapChangedEventHandler MapChanged;
 
         public NetworkClient()
         {
@@ -19,17 +41,25 @@ namespace BlockDefender.Net
             Socket.Connect(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
         }
 
-        public Playground EstablishConnection()
+        public void EstablishConnection()
         {
             NetworkPacketSerializer.WritePacket(new JoinRequestPacket(), Socket);
             var packet = NetworkPacketSerializer.ReadPacket(Socket);
             var welcome = packet as WelcomePacket;
-            if (packet != null)
+            if (packet == null)
             {
-                Playground = new Playground(welcome.Map);
-                return Playground;
+                throw new Exception("Expected a welcome packet but received something else!");
             }
-            throw new Exception("Expected a welcome packet but received something else!");
+            Playground = new Playground(welcome.Map);
+            OnMapChanged(welcome.Map);
+        }
+
+        private void OnMapChanged(Map map)
+        {
+            if (MapChanged != null)
+            {
+                MapChanged(this, new MapChangedEventArgs(map));
+            }
         }
 
         public void MovePlayer(PlayerHeading direction)

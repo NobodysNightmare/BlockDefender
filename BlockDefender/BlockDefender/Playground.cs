@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace BlockDefender
 {
-    class Playground
+    class Playground : IDrawableComponent
     {
         private Map Map;
 

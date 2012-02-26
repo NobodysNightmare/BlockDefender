@@ -112,6 +112,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="IDrawableComponent.cs" />
     <Compile Include="Terrain\DestructibleField.cs" />
     <Compile Include="Terrain\Field.cs" />
     <Compile Include="Terrain\MapGenerator.cs" />

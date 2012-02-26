@@ -18,8 +18,7 @@ namespace BlockDefender
     {
         public const int FieldSize = 100;
 
-        private float GameScale;
-        private Vector3 GameOffset;
+        private Matrix GameTransform;
 
         private GraphicsDeviceManager Graphics;
         private SpriteBatch GameSprites;
@@ -27,7 +26,6 @@ namespace BlockDefender
 
         private SpriteFont SystemFont;
 
-        private Playground Playground;
         private NetworkClient NetworkClient;
 
         public BlockDefenderGame()
@@ -44,10 +42,23 @@ namespace BlockDefender
                 server.Start();
             }
             ApplyGraphicsSettings();
+            GameTransform = Matrix.CreateScale(1f);
             NetworkClient = new NetworkClient();
-            Playground = NetworkClient.EstablishConnection();
+            NetworkClient.MapChanged += OnMapChange;
+            NetworkClient.EstablishConnection();
 
             base.Initialize();
+        }
+
+        void OnMapChange(object source, MapChangedEventArgs e)
+        {
+            float desiredFieldSize = (float)Graphics.GraphicsDevice.Viewport.Width / (e.Map.ColumnCount + 1);
+            float gameScale = desiredFieldSize / FieldSize;
+            float emptyVerticalSpace = Graphics.GraphicsDevice.Viewport.Height - (desiredFieldSize * e.Map.RowCount);
+            Vector3 gameOffset = new Vector3(desiredFieldSize / 2, emptyVerticalSpace / 2, 0);
+
+            GameTransform = Matrix.CreateScale(gameScale);
+            GameTransform.Translation = gameOffset;
         }
 
         private void ApplyGraphicsSettings()
@@ -69,11 +80,6 @@ namespace BlockDefender
             PlainField.LoadAssets(Content);
             SolidField.LoadAssets(Content);
             DestructibleField.LoadAssets(Content);
-
-            float desiredFieldSize = (float)Graphics.GraphicsDevice.Viewport.Width / (Playground.ColumnCount + 1);
-            GameScale = desiredFieldSize / FieldSize;
-            float emptyVerticalSpace = Graphics.GraphicsDevice.Viewport.Height - (desiredFieldSize * Playground.RowCount);
-            GameOffset = new Vector3(desiredFieldSize / 2, emptyVerticalSpace / 2, 0);
         }
 
         protected override void UnloadContent()
@@ -121,11 +127,12 @@ namespace BlockDefender
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            Matrix gameTransform = Matrix.CreateScale(GameScale);
-            gameTransform.Translation = GameOffset;
             GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
-                              DepthStencilState.Default, RasterizerState.CullNone, null, gameTransform);
-            Playground.Draw(GameSprites);
+                              DepthStencilState.Default, RasterizerState.CullNone, null, GameTransform);
+            if (NetworkClient.Visual != null)
+            {
+                NetworkClient.Visual.Draw(GameSprites);
+            }
             GameSprites.End();
 
             HUDSprites.Begin();
