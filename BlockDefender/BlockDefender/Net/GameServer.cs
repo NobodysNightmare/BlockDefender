@@ -28,8 +28,8 @@ namespace BlockDefender.Net
             Playground = new Playground(Map);
 
             ActiveSockets = new List<Socket>();
-            //FIXME: how to enable ipv4 (dual-stack) support?
             ListenSocket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.IP);
+            ListenSocket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
             ListenSocket.Bind(new IPEndPoint(IPAddress.IPv6Any, port));
             ActiveSockets.Add(ListenSocket);
         }
