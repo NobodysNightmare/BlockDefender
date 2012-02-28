@@ -113,6 +113,8 @@
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="IDrawableComponent.cs" />
+    <Compile Include="Layers\GameLayer.cs" />
+    <Compile Include="Layers\ILayer.cs" />
     <Compile Include="Terrain\DestructibleField.cs" />
     <Compile Include="Terrain\Field.cs" />
     <Compile Include="Terrain\MapGenerator.cs" />

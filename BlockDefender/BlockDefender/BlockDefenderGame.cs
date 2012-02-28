@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Text;
 using BlockDefender.Terrain;
 using BlockDefender.Net;
+using BlockDefender.Layers;
 
 namespace BlockDefender
 {
@@ -18,20 +19,17 @@ namespace BlockDefender
     {
         public const int FieldSize = 100;
 
-        private Matrix GameTransform;
-
         private GraphicsDeviceManager Graphics;
-        private SpriteBatch GameSprites;
-        private SpriteBatch HUDSprites;
 
-        private SpriteFont SystemFont;
+        public static SpriteFont SystemFont { get; private set; }
 
-        private NetworkClient NetworkClient;
+        private Stack<ILayer> Layers;
 
         public BlockDefenderGame()
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Layers = new Stack<ILayer>();
         }
 
         protected override void Initialize()
@@ -42,23 +40,8 @@ namespace BlockDefender
                 server.Start();
             }
             ApplyGraphicsSettings();
-            GameTransform = Matrix.CreateScale(1f);
-            NetworkClient = new NetworkClient();
-            NetworkClient.MapChanged += OnMapChange;
-            NetworkClient.EstablishConnection(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
 
             base.Initialize();
-        }
-
-        void OnMapChange(object source, MapChangedEventArgs e)
-        {
-            float desiredFieldSize = (float)Graphics.GraphicsDevice.Viewport.Width / (e.Map.ColumnCount + 1);
-            float gameScale = desiredFieldSize / FieldSize;
-            float emptyVerticalSpace = Graphics.GraphicsDevice.Viewport.Height - (desiredFieldSize * e.Map.RowCount);
-            Vector3 gameOffset = new Vector3(desiredFieldSize / 2, emptyVerticalSpace / 2, 0);
-
-            GameTransform = Matrix.CreateScale(gameScale);
-            GameTransform.Translation = gameOffset;
         }
 
         private void ApplyGraphicsSettings()
@@ -73,25 +56,28 @@ namespace BlockDefender
 
         protected override void LoadContent()
         {
-            GameSprites = new SpriteBatch(GraphicsDevice);
-            HUDSprites = new SpriteBatch(GraphicsDevice);
             SystemFont = Content.Load<SpriteFont>("SystemFont");
             Player.LoadAssets(Content);
             PlainField.LoadAssets(Content);
             SolidField.LoadAssets(Content);
             DestructibleField.LoadAssets(Content);
+
+            Layers.Push(new GameLayer(GraphicsDevice));
         }
 
         protected override void UnloadContent()
         {
-            NetworkClient.Dispose();
+            
         }
 
         protected override void Update(GameTime gameTime)
         {
-            NetworkClient.Update();
-            UpdateInput();
+            foreach (var layer in Layers)
+            {
+                layer.Update(gameTime);
+            }
 
+            UpdateInput();
             base.Update(gameTime);
         }
 
@@ -101,52 +87,19 @@ namespace BlockDefender
             if (keyState.IsKeyDown(AppSettings.Default.Exit))
                 Exit();
 
-            if (keyState.IsKeyDown(AppSettings.Default.MoveUp))
-            {
-                NetworkClient.MovePlayer(PlayerHeading.Up);
-            }
-            else if (keyState.IsKeyDown(AppSettings.Default.MoveLeft))
-            {
-                NetworkClient.MovePlayer(PlayerHeading.Left);
-            }
-            else if (keyState.IsKeyDown(AppSettings.Default.MoveDown))
-            {
-                NetworkClient.MovePlayer(PlayerHeading.Down);
-            }
-            else if (keyState.IsKeyDown(AppSettings.Default.MoveRight))
-            {
-                NetworkClient.MovePlayer(PlayerHeading.Right);
-            }
-
-            if (keyState.IsKeyDown(AppSettings.Default.Interact))
-            {
-                NetworkClient.PlayerInteract();
-            }
+            Layers.Peek().HandleInput();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
-                              DepthStencilState.Default, RasterizerState.CullNone, null, GameTransform);
-            if (NetworkClient.Visual != null)
-            {
-                NetworkClient.Visual.Draw(GameSprites);
-            }
-            GameSprites.End();
 
-            HUDSprites.Begin();
-            drawFPS(gameTime);
-            HUDSprites.End();
+            foreach (var layer in Layers)
+            {
+                layer.Draw(gameTime);
+            }
             
             base.Draw(gameTime);
-        }
-
-        private void drawFPS(GameTime time)
-        {
-            StringBuilder myFPSText = new StringBuilder(Math.Round(1 / time.ElapsedGameTime.TotalSeconds).ToString()).Append(" FPS");
-            HUDSprites.DrawString(SystemFont, myFPSText, Vector2.One, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            HUDSprites.DrawString(SystemFont, NetworkClient.State.ToString(), new Vector2(150f, 1f), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
