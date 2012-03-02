@@ -28,12 +28,18 @@ namespace BlockDefender.Layers
 
             NetworkClient = new NetworkClient();
             NetworkClient.MapChanged += OnMapChange;
+            NetworkClient.PlayerAssigned += OnPlayerAssigned;
             NetworkClient.EstablishConnection(AppSettings.Default.ConnectHost, AppSettings.Default.ConnectPort);
         }
 
         void OnMapChange(object source, MapChangedEventArgs e)
         {
             ActiveCamera = new OverviewCamera(GraphicsDevice, e.Map);
+        }
+
+        void OnPlayerAssigned(object source, PlayerAssignedEventArgs e)
+        {
+            ActiveCamera = new PlayerChasingCamera(GraphicsDevice, e.Player);
         }
 
         public void Update(GameTime gameTime)

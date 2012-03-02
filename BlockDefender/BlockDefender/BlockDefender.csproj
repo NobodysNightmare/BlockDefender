@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Camera\ICamera.cs" />
     <Compile Include="Camera\OverviewCamera.cs" />
+    <Compile Include="Camera\PlayerChasingCamera.cs" />
     <Compile Include="Camera\SimpleCamera.cs" />
     <Compile Include="IDrawableComponent.cs" />
     <Compile Include="Layers\GameLayer.cs" />
