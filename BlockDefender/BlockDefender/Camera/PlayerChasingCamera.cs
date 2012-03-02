@@ -25,8 +25,9 @@ namespace BlockDefender.Camera
 
         public Matrix computeTransformation()
         {
-            Vector3 targetPosition = Vector3.Multiply(new Vector3(-Player.Position, 0f), ZoomFactor);
-            Transformation.Translation = targetPosition + CenterTranslation;
+            Vector3 targetTranslation = Vector3.Multiply(new Vector3(-Player.Position, 0f), ZoomFactor) + CenterTranslation;
+            Vector3 translationDifference = targetTranslation - Transformation.Translation;
+            Transformation.Translation += translationDifference * 0.05f;
             return Transformation;
         }
     }
