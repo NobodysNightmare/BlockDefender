@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using BlockDefender.Net;
 using Microsoft.Xna.Framework.Input;
+using BlockDefender.Camera;
 
 namespace BlockDefender.Layers
 {
@@ -14,7 +15,7 @@ namespace BlockDefender.Layers
         private GraphicsDevice GraphicsDevice;
         private SpriteBatch GameSprites;
         private SpriteBatch HUDSprites;
-        private Matrix GameTransform;
+        private ICamera ActiveCamera;
 
         private NetworkClient NetworkClient;
 
@@ -23,7 +24,7 @@ namespace BlockDefender.Layers
             GraphicsDevice = device;
             GameSprites = new SpriteBatch(device);
             HUDSprites = new SpriteBatch(device);
-            GameTransform = Matrix.CreateScale(1f);
+            ActiveCamera = new SimpleCamera();
 
             NetworkClient = new NetworkClient();
             NetworkClient.MapChanged += OnMapChange;
@@ -32,13 +33,7 @@ namespace BlockDefender.Layers
 
         void OnMapChange(object source, MapChangedEventArgs e)
         {
-            float desiredFieldSize = (float)GraphicsDevice.Viewport.Width / (e.Map.ColumnCount + 1);
-            float gameScale = desiredFieldSize / BlockDefenderGame.FieldSize;
-            float emptyVerticalSpace = GraphicsDevice.Viewport.Height - (desiredFieldSize * e.Map.RowCount);
-            Vector3 gameOffset = new Vector3(desiredFieldSize / 2, emptyVerticalSpace / 2, 0);
-
-            GameTransform = Matrix.CreateScale(gameScale);
-            GameTransform.Translation = gameOffset;
+            ActiveCamera = new OverviewCamera(GraphicsDevice, e.Map);
         }
 
         public void Update(GameTime gameTime)
@@ -76,7 +71,7 @@ namespace BlockDefender.Layers
         public void Draw(GameTime gameTime)
         {
             GameSprites.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap,
-                              DepthStencilState.Default, RasterizerState.CullNone, null, GameTransform);
+                              DepthStencilState.Default, RasterizerState.CullNone, null, ActiveCamera.computeTransformation());
             if (NetworkClient.Visual != null)
             {
                 NetworkClient.Visual.Draw(GameSprites);

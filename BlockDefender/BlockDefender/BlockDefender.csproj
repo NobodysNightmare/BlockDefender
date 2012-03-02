@@ -112,6 +112,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Camera\ICamera.cs" />
+    <Compile Include="Camera\OverviewCamera.cs" />
+    <Compile Include="Camera\SimpleCamera.cs" />
     <Compile Include="IDrawableComponent.cs" />
     <Compile Include="Layers\GameLayer.cs" />
     <Compile Include="Layers\ILayer.cs" />
