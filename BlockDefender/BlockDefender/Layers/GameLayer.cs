@@ -75,7 +75,7 @@ namespace BlockDefender.Layers
 
         public void Draw(GameTime gameTime)
         {
-            GameSprites.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
+            GameSprites.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap,
                               DepthStencilState.Default, RasterizerState.CullNone, null, GameTransform);
             if (NetworkClient.Visual != null)
             {
@@ -83,7 +83,7 @@ namespace BlockDefender.Layers
             }
             GameSprites.End();
 
-            HUDSprites.Begin();
+            HUDSprites.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             drawHUD(gameTime);
             HUDSprites.End();
         }
