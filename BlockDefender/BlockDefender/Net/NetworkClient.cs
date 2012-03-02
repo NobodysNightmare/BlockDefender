@@ -10,6 +10,7 @@ using System.Net;
 namespace BlockDefender.Net
 {
     delegate void MapChangedEventHandler(object source, MapChangedEventArgs e);
+    delegate void PlayerAssignedEventHandler(object source, PlayerAssignedEventArgs e);
     class MapChangedEventArgs : EventArgs
     {
         public Map Map { get; private set; }
@@ -17,6 +18,16 @@ namespace BlockDefender.Net
         public MapChangedEventArgs(Map map)
         {
             Map = map;
+        }
+    }
+
+    class PlayerAssignedEventArgs : EventArgs
+    {
+        public Player Player { get; private set; }
+
+        public PlayerAssignedEventArgs(Player player)
+        {
+            Player = player;
         }
     }
 
@@ -42,6 +53,7 @@ namespace BlockDefender.Net
         public NetworkClientState State { get; private set; }
 
         public event MapChangedEventHandler MapChanged;
+        public event PlayerAssignedEventHandler PlayerAssigned;
 
         public NetworkClient()
         {
@@ -83,6 +95,14 @@ namespace BlockDefender.Net
             if (MapChanged != null)
             {
                 MapChanged(this, new MapChangedEventArgs(map));
+            }
+        }
+
+        private void RaisePlayerAssigned(Player player)
+        {
+            if (PlayerAssigned != null)
+            {
+                PlayerAssigned(this, new PlayerAssignedEventArgs(player));
             }
         }
 
@@ -134,6 +154,7 @@ namespace BlockDefender.Net
         private void ProcessPacket(AssignPlayerPacket assignPacket)
         {
             AssignedPlayer = Playground.Players.Single(player => player.Id == assignPacket.PlayerId);
+            RaisePlayerAssigned(AssignedPlayer);
         }
 
         private void ProcessPacket(PlayerUpdatePacket updatePacket)
