@@ -116,13 +116,13 @@ namespace BlockDefender.Net
             {
                 var updatePacket = packet as PlayerUpdatePacket;
                 Playground.Players.Single(p => p.Id == updatePacket.Id).Update(updatePacket.Position, updatePacket.Heading);
-                BroadcastPacket(packet);
+                BroadcastPacket(packet, source);
             }
         }
 
-        private void BroadcastPacket(NetworkPacket packet)
+        private void BroadcastPacket(NetworkPacket packet, Socket excludedSocket = null)
         {
-            foreach (var socket in ActiveSockets.Where(socket => socket != ListenSocket))
+            foreach (var socket in ActiveSockets.Where(socket => socket != ListenSocket && socket != excludedSocket))
             {
                 NetworkPacketSerializer.WritePacket(packet, socket);
             }
