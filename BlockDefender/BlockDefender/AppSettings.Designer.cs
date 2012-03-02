@@ -178,5 +178,17 @@ namespace BlockDefender {
                 this["Fullscreen"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LeftAlt")]
+        public global::Microsoft.Xna.Framework.Input.Keys OverviewCamera {
+            get {
+                return ((global::Microsoft.Xna.Framework.Input.Keys)(this["OverviewCamera"]));
+            }
+            set {
+                this["OverviewCamera"] = value;
+            }
+        }
     }
 }

@@ -15,9 +15,14 @@ namespace BlockDefender.Layers
         private GraphicsDevice GraphicsDevice;
         private SpriteBatch GameSprites;
         private SpriteBatch HUDSprites;
+        
         private ICamera ActiveCamera;
+        private ICamera OverviewCamera;
+        private ICamera ChaseCamera;
 
         private NetworkClient NetworkClient;
+
+        private KeyboardState LastKeyState;
 
         public GameLayer(GraphicsDevice device)
         {
@@ -34,12 +39,14 @@ namespace BlockDefender.Layers
 
         void OnMapChange(object source, MapChangedEventArgs e)
         {
-            ActiveCamera = new OverviewCamera(GraphicsDevice, e.Map);
+            OverviewCamera = new OverviewCamera(GraphicsDevice, e.Map);
+            ActiveCamera = OverviewCamera;
         }
 
         void OnPlayerAssigned(object source, PlayerAssignedEventArgs e)
         {
-            ActiveCamera = new PlayerChasingCamera(GraphicsDevice, e.Player);
+            ChaseCamera = new PlayerChasingCamera(GraphicsDevice, e.Player);
+            ActiveCamera = ChaseCamera;
         }
 
         public void Update(GameTime gameTime)
@@ -50,6 +57,15 @@ namespace BlockDefender.Layers
         public void HandleInput()
         {
             var keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(AppSettings.Default.OverviewCamera) && LastKeyState.IsKeyUp(AppSettings.Default.OverviewCamera))
+            {
+                ActiveCamera = OverviewCamera;
+            }
+            else if (keyState.IsKeyUp(AppSettings.Default.OverviewCamera) && LastKeyState.IsKeyDown(AppSettings.Default.OverviewCamera))
+            {
+                ActiveCamera = ChaseCamera;
+            }
 
             if (keyState.IsKeyDown(AppSettings.Default.MoveUp))
             {
@@ -72,6 +88,8 @@ namespace BlockDefender.Layers
             {
                 NetworkClient.PlayerInteract();
             }
+
+            LastKeyState = keyState;
         }
 
         public void Draw(GameTime gameTime)
